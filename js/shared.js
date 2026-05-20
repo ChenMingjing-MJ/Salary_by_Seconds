@@ -30,6 +30,7 @@
             <a href="/freelance-rate/" data-i18n-nav="nav_freelance">Freelance Rate</a>
             <a href="/overtime/" data-i18n-nav="nav_overtime">Overtime</a>
             <a href="/salary-comparison/" data-i18n-nav="nav_comparison">Salary Comparison</a>
+            <a href="/privacy/">Privacy Policy</a>
         </div>
         <p class="footer-about" data-i18n="footer_about">Free online salary calculators and financial tools. Calculate your real-time earnings, take-home pay, freelance rates, overtime compensation, and compare salaries across cities worldwide.</p>
         <p class="footer-copy">&copy; 2025 CashClock. All rights reserved.</p>
