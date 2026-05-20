@@ -33,7 +33,7 @@
             <a href="/privacy/">Privacy Policy</a>
         </div>
         <p class="footer-about" data-i18n="footer_about">Free online salary calculators and financial tools. Calculate your real-time earnings, take-home pay, freelance rates, overtime compensation, and compare salaries across cities worldwide.</p>
-        <p class="footer-copy">&copy; 2025 CashClock. All rights reserved.</p>
+        <p class="footer-copy">&copy; 2026 CashClock. All rights reserved.</p>
     </footer>`;
 
     const NAV_I18N = {
