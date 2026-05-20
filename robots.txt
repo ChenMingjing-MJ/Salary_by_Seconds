@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://caseclockio.vercel.app/sitemap.xml
+Sitemap: https://cashclockio.vercel.app/sitemap.xml
