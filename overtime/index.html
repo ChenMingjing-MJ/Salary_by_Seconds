@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overtime Calculator - OT Pay Calculator | SalaryTools</title>
+    <title>Overtime Calculator - OT Pay Calculator | CashClock</title>
     <meta name="description" content="Calculate your overtime pay instantly. Supports time-and-a-half (1.5x) and double-time (2.0x) rates. Enter your hourly rate or annual salary to see regular pay, overtime pay, and effective hourly rate.">
     <meta property="og:title" content="Overtime Calculator - OT Pay Calculator">
     <meta property="og:description" content="Calculate overtime pay with 1.5x or 2x multipliers. Free online overtime compensation calculator.">
     <meta property="og:type" content="website">
-    <link rel="canonical" href="https://salarytools.app/overtime/">
+    <link rel="canonical" href="https://cashclock.vercel.app/overtime/">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -428,20 +428,20 @@
             const effectiveRate = totalPay / totalHours;
 
             // Display results
-            document.getElementById('resultTotal').textContent = SalaryTools.formatCurrency(totalPay);
-            document.getElementById('resultRegular').textContent = SalaryTools.formatCurrency(regularPay);
-            document.getElementById('resultOvertime').textContent = SalaryTools.formatCurrency(overtimePay);
+            document.getElementById('resultTotal').textContent = CashClock.formatCurrency(totalPay);
+            document.getElementById('resultRegular').textContent = CashClock.formatCurrency(regularPay);
+            document.getElementById('resultOvertime').textContent = CashClock.formatCurrency(overtimePay);
             document.getElementById('resultOTHours').textContent = overtimeHours.toFixed(1) + 'h';
-            document.getElementById('resultEffective').textContent = SalaryTools.formatCurrency(effectiveRate) + '/hr';
+            document.getElementById('resultEffective').textContent = CashClock.formatCurrency(effectiveRate) + '/hr';
 
             // Update bar chart
             if (totalPay > 0) {
                 const regularPercent = (regularPay / totalPay) * 100;
                 const overtimePercent = (overtimePay / totalPay) * 100;
                 document.getElementById('barRegular').style.width = regularPercent + '%';
-                document.getElementById('barRegular').textContent = SalaryTools.formatCurrency(regularPay);
+                document.getElementById('barRegular').textContent = CashClock.formatCurrency(regularPay);
                 document.getElementById('barOvertime').style.width = overtimePercent + '%';
-                document.getElementById('barOvertime').textContent = overtimePay > 0 ? SalaryTools.formatCurrency(overtimePay) : '';
+                document.getElementById('barOvertime').textContent = overtimePay > 0 ? CashClock.formatCurrency(overtimePay) : '';
             }
 
             // Show results

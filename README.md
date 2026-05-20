@@ -1,4 +1,4 @@
-# SalaryTools
+# CashClock
 
 A multi-page salary calculator suite with a glamorous gold-on-dark theme, motivational background imagery, and multi-language support. Built for Google AdSense monetization with SEO-optimized pages.
 
@@ -139,4 +139,4 @@ Pure static HTML — no build step required.
 
 ## Live Demo
 
-[https://salary-by-seconds.vercel.app/](https://salary-by-seconds.vercel.app/)
+[https://cashclock.vercel.app/](https://cashclock.vercel.app/)

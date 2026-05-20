@@ -3,7 +3,7 @@
 
     const NAV_HTML = `
     <nav class="site-nav">
-        <a href="/" class="nav-brand">SalaryTools</a>
+        <a href="/" class="nav-brand">CashClock</a>
         <ul class="nav-links" id="navLinks">
             <li><a href="/" data-nav="home" data-i18n-nav="nav_home">Salary Counter</a></li>
             <li><a href="/take-home-pay/" data-nav="take-home" data-i18n-nav="nav_takehome">Take-Home Pay</a></li>
@@ -32,7 +32,7 @@
             <a href="/salary-comparison/" data-i18n-nav="nav_comparison">Salary Comparison</a>
         </div>
         <p class="footer-about" data-i18n="footer_about">Free online salary calculators and financial tools. Calculate your real-time earnings, take-home pay, freelance rates, overtime compensation, and compare salaries across cities worldwide.</p>
-        <p class="footer-copy">&copy; 2025 SalaryTools. All rights reserved.</p>
+        <p class="footer-copy">&copy; 2025 CashClock. All rights reserved.</p>
     </footer>`;
 
     const NAV_I18N = {
@@ -99,7 +99,7 @@
     }
 
     function initLangSwitcher() {
-        const stored = localStorage.getItem('salarytools-lang') || 'en';
+        const stored = localStorage.getItem('cashclock-lang') || 'en';
         setGlobalLanguage(stored);
 
         document.querySelectorAll('.nav-lang .lang-btn').forEach(btn => {
@@ -111,7 +111,7 @@
 
     function setGlobalLanguage(lang) {
         window.currentLang = lang;
-        localStorage.setItem('salarytools-lang', lang);
+        localStorage.setItem('cashclock-lang', lang);
 
         document.querySelectorAll('.nav-lang .lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.lang === lang);
@@ -157,7 +157,7 @@
         initLangSwitcher();
     });
 
-    window.SalaryTools = {
+    window.CashClock = {
         formatCurrency: formatCurrency,
         setLanguage: setGlobalLanguage
     };

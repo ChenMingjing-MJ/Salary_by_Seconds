@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salary Comparison Tool - Cost of Living Calculator | SalaryTools</title>
+    <title>Salary Comparison Tool - Cost of Living Calculator | CashClock</title>
     <meta name="description" content="Compare salaries across cities worldwide with our cost-of-living calculator. Find out what your salary is worth in different cities and make informed relocation decisions.">
     <meta property="og:title" content="Salary Comparison Tool - Cost of Living Calculator">
     <meta property="og:description" content="Compare salaries across cities worldwide. Calculate equivalent salary, cost-of-living differences, and purchasing power.">
     <meta property="og:type" content="website">
-    <link rel="canonical" href="https://salarytools.app/salary-comparison/">
+    <link rel="canonical" href="https://cashclock.vercel.app/salary-comparison/">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -477,8 +477,8 @@
     }
 
     function formatCurrency(amount) {
-        if (window.SalaryTools && window.SalaryTools.formatCurrency) {
-            return window.SalaryTools.formatCurrency(amount, 0);
+        if (window.CashClock && window.CashClock.formatCurrency) {
+            return window.CashClock.formatCurrency(amount, 0);
         }
         return '$' + Math.round(amount).toLocaleString('en-US');
     }

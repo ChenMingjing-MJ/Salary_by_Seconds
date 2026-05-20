@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://salarytools.app/sitemap.xml
+Sitemap: https://cashclock.vercel.app/sitemap.xml

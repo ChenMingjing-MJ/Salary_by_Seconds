@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freelance Rate Calculator - Salary to Hourly Rate | SalaryTools</title>
+    <title>Freelance Rate Calculator - Salary to Hourly Rate | CashClock</title>
     <meta name="description" content="Convert your salary to an equivalent freelance hourly rate. Account for self-employment tax, benefits, profit margin, and billable hours to find your ideal freelance rate.">
     <meta property="og:title" content="Freelance Rate Calculator - Salary to Hourly Rate">
     <meta property="og:description" content="Calculate the freelance hourly rate you need to match or exceed your current salary, factoring in taxes, benefits, and overhead.">
     <meta property="og:type" content="website">
-    <link rel="canonical" href="https://salarytools.app/freelance-rate/">
+    <link rel="canonical" href="https://cashclock.vercel.app/freelance-rate/">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -382,7 +382,7 @@
             const annualTarget = withProfit;
 
             // Format and display
-            const fmt = window.SalaryTools ? window.SalaryTools.formatCurrency : (v, d) => '$' + v.toFixed(d || 2);
+            const fmt = window.CashClock ? window.CashClock.formatCurrency : (v, d) => '$' + v.toFixed(d || 2);
 
             document.getElementById('resultHourlyRate').textContent = fmt(hourlyRate, 2);
             document.getElementById('resultMinRate').textContent = fmt(minimumRate, 2);
