@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take-Home Pay Calculator - After-Tax Salary | SalaryTools</title>
+    <meta name="description" content="Calculate your after-tax take-home pay instantly. See your net salary breakdown by month, biweekly, weekly, and daily with accurate 2024 tax brackets for US, UK, Australia, and Canada.">
+    <meta name="keywords" content="take home pay calculator, after tax salary, net pay, tax calculator, salary calculator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://salarytools.com/take-home-pay/">
+    <meta property="og:title" content="Take-Home Pay Calculator - After-Tax Salary | SalaryTools">
+    <meta property="og:description" content="Calculate your after-tax take-home pay instantly with accurate 2024 tax brackets for US, UK, Australia, and Canada.">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Take-Home Pay Calculator",
+        "description": "Calculate your after-tax take-home pay with accurate tax brackets for multiple countries.",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "SalaryTools"
+        }
+    }
+    </script>
+
+    <link rel="stylesheet" href="/css/shared.css">
+    <style>
+        .pie-chart-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .effective-rate {
+            text-align: center;
+            margin-top: 15px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .effective-rate span {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-left: 8px;
+        }
+
+        .results-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-image"></div>
+    <div class="page-container">
+        <!-- Ad Slot: Leaderboard -->
+        <div class="ad-slot ad-slot-leaderboard"></div>
+
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1 data-i18n="page_title">Take-Home Pay Calculator</h1>
+            <p data-i18n="page_subtitle">Calculate your after-tax salary and see exactly how much you take home</p>
+        </header>
+
+        <!-- Calculator Card -->
+        <div class="calc-card">
+            <div class="calc-grid">
+                <div class="form-group">
+                    <label data-i18n="label_salary">Gross Annual Salary</label>
+                    <input type="number" id="grossSalary" placeholder="75000" min="0" step="1000">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_country">Country</label>
+                    <select id="countrySelect">
+                        <option value="US">United States</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <option value="CA">Canada</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_status">Filing Status</label>
+                    <select id="filingStatus">
+                        <option value="single" data-i18n-option="status_single">Single</option>
+                        <option value="married" data-i18n-option="status_married">Married</option>
+                    </select>
+                </div>
+            </div>
+            <button class="calc-btn" id="calcBtn" data-i18n="btn_calculate">CALCULATE TAKE-HOME PAY</button>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <div class="calc-card">
+                <!-- Main Result -->
+                <div class="result-highlight">
+                    <div class="result-label" data-i18n="result_net_annual">Net Annual Pay</div>
+                    <div class="result-value" id="netAnnual">$0</div>
+                </div>
+
+                <!-- Breakdown Grid -->
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-card-value" id="netMonthly">$0</div>
+                        <div class="result-card-label" data-i18n="result_monthly">Monthly</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card-value" id="netBiweekly">$0</div>
+                        <div class="result-card-label" data-i18n="result_biweekly">Biweekly</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card-value" id="netWeekly">$0</div>
+                        <div class="result-card-label" data-i18n="result_weekly">Weekly</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-card-value" id="netDaily">$0</div>
+                        <div class="result-card-label" data-i18n="result_daily">Daily</div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="pie-chart-section">
+                    <div class="pie-chart" id="pieChart"></div>
+                    <div class="pie-legend">
+                        <div class="pie-legend-item">
+                            <div class="pie-legend-dot" style="background: var(--gold-light);"></div>
+                            <span data-i18n="legend_net">Net Pay</span>
+                        </div>
+                        <div class="pie-legend-item">
+                            <div class="pie-legend-dot" style="background: #ef4444;"></div>
+                            <span data-i18n="legend_tax">Tax</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Effective Tax Rate -->
+                <div class="effective-rate">
+                    <span data-i18n="label_effective_rate">Effective Tax Rate:</span>
+                    <span id="effectiveRate">0%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Slot: Banner -->
+        <div class="ad-slot ad-slot-banner"></div>
+
+        <!-- SEO Content -->
+        <section class="seo-content">
+            <h2 data-i18n="seo_title">How to Calculate Your Take-Home Pay</h2>
+            <p data-i18n="seo_p1">Your take-home pay is the amount of money you actually receive after all taxes and deductions are subtracted from your gross salary. Understanding your net pay is crucial for budgeting, financial planning, and evaluating job offers. The difference between your gross salary and take-home pay can be substantial depending on your country, income level, and filing status.</p>
+            <p data-i18n="seo_p2">Tax systems in most countries use progressive brackets, meaning different portions of your income are taxed at different rates. For example, in the United States, the first $11,600 of income (for single filers in 2024) is taxed at just 10%, while income above $609,350 is taxed at 37%. This means your effective tax rate is always lower than your marginal tax rate.</p>
+            <p data-i18n="seo_p3">Our calculator supports tax brackets for the United States, United Kingdom, Australia, and Canada. Simply enter your gross annual salary, select your country and filing status, and instantly see your after-tax income broken down by year, month, biweekly period, week, and day. The visual pie chart makes it easy to see exactly how much of your salary goes to taxes versus take-home pay.</p>
+        </section>
+
+        <!-- More Tools -->
+        <section class="more-tools">
+            <h2 data-i18n="more_tools_title">More Salary Tools</h2>
+            <div class="tools-grid">
+                <a href="/" class="tool-card">
+                    <h3 data-i18n="tool_counter_title">Real-Time Salary Counter</h3>
+                    <p data-i18n="tool_counter_desc">Watch your earnings tick up in real time, down to the second.</p>
+                </a>
+                <a href="/freelance-rate/" class="tool-card">
+                    <h3 data-i18n="tool_freelance_title">Freelance Rate Calculator</h3>
+                    <p data-i18n="tool_freelance_desc">Find your ideal hourly or daily freelance rate based on your goals.</p>
+                </a>
+                <a href="/overtime/" class="tool-card">
+                    <h3 data-i18n="tool_overtime_title">Overtime Pay Calculator</h3>
+                    <p data-i18n="tool_overtime_desc">Calculate overtime earnings with various multiplier rates.</p>
+                </a>
+                <a href="/salary-comparison/" class="tool-card">
+                    <h3 data-i18n="tool_comparison_title">Salary Comparison</h3>
+                    <p data-i18n="tool_comparison_desc">Compare salaries across different cities and cost of living.</p>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+    // i18n translations
+    window.pageI18n = {
+        en: {
+            page_title: 'Take-Home Pay Calculator',
+            page_subtitle: 'Calculate your after-tax salary and see exactly how much you take home',
+            label_salary: 'Gross Annual Salary',
+            label_country: 'Country',
+            label_status: 'Filing Status',
+            status_single: 'Single',
+            status_married: 'Married',
+            btn_calculate: 'CALCULATE TAKE-HOME PAY',
+            result_net_annual: 'Net Annual Pay',
+            result_monthly: 'Monthly',
+            result_biweekly: 'Biweekly',
+            result_weekly: 'Weekly',
+            result_daily: 'Daily',
+            legend_net: 'Net Pay',
+            legend_tax: 'Tax',
+            label_effective_rate: 'Effective Tax Rate:',
+            seo_title: 'How to Calculate Your Take-Home Pay',
+            seo_p1: 'Your take-home pay is the amount of money you actually receive after all taxes and deductions are subtracted from your gross salary. Understanding your net pay is crucial for budgeting, financial planning, and evaluating job offers. The difference between your gross salary and take-home pay can be substantial depending on your country, income level, and filing status.',
+            seo_p2: 'Tax systems in most countries use progressive brackets, meaning different portions of your income are taxed at different rates. For example, in the United States, the first $11,600 of income (for single filers in 2024) is taxed at just 10%, while income above $609,350 is taxed at 37%. This means your effective tax rate is always lower than your marginal tax rate.',
+            seo_p3: 'Our calculator supports tax brackets for the United States, United Kingdom, Australia, and Canada. Simply enter your gross annual salary, select your country and filing status, and instantly see your after-tax income broken down by year, month, biweekly period, week, and day. The visual pie chart makes it easy to see exactly how much of your salary goes to taxes versus take-home pay.',
+            more_tools_title: 'More Salary Tools',
+            tool_counter_title: 'Real-Time Salary Counter',
+            tool_counter_desc: 'Watch your earnings tick up in real time, down to the second.',
+            tool_freelance_title: 'Freelance Rate Calculator',
+            tool_freelance_desc: 'Find your ideal hourly or daily freelance rate based on your goals.',
+            tool_overtime_title: 'Overtime Pay Calculator',
+            tool_overtime_desc: 'Calculate overtime earnings with various multiplier rates.',
+            tool_comparison_title: 'Salary Comparison',
+            tool_comparison_desc: 'Compare salaries across different cities and cost of living.',
+            footer_about: 'Free online salary calculators and financial tools.'
+        },
+        zh: {
+            page_title: '税后工资计算器',
+            page_subtitle: '计算您的税后薪资，了解您实际到手的金额',
+            label_salary: '税前年薪',
+            label_country: '国家',
+            label_status: '报税状态',
+            status_single: '单身',
+            status_married: '已婚',
+            btn_calculate: '计算税后工资',
+            result_net_annual: '年净收入',
+            result_monthly: '月收入',
+            result_biweekly: '双周收入',
+            result_weekly: '周收入',
+            result_daily: '日收入',
+            legend_net: '净收入',
+            legend_tax: '税款',
+            label_effective_rate: '实际税率：',
+            seo_title: '如何计算您的税后工资',
+            seo_p1: '税后工资是从您的税前薪资中扣除所有税款和扣除项后，您实际收到的金额。了解您的净收入对于预算规划、财务管理和评估工作机会至关重要。根据您所在的国家、收入水平和报税状态，税前薪资与税后工资之间的差异可能相当大。',
+            seo_p2: '大多数国家的税收制度采用累进税率，即收入的不同部分按不同税率征税。例如，在美国，单身申报者2024年的前11,600美元收入仅按10%征税，而超过609,350美元的收入按37%征税。这意味着您的实际税率始终低于边际税率。',
+            seo_p3: '我们的计算器支持美国、英国、澳大利亚和加拿大的税率。只需输入您的税前年薪，选择国家和报税状态，即可立即查看按年、月、双周、周和日计算的税后收入。饼图让您直观地了解薪资中税款与净收入的比例。',
+            more_tools_title: '更多薪资工具',
+            tool_counter_title: '实时薪资计数器',
+            tool_counter_desc: '实时观看您的收入逐秒增长。',
+            tool_freelance_title: '自由职业费率计算器',
+            tool_freelance_desc: '根据您的目标找到理想的时薪或日薪费率。',
+            tool_overtime_title: '加班工资计算器',
+            tool_overtime_desc: '计算各种倍率下的加班收入。',
+            tool_comparison_title: '薪资对比',
+            tool_comparison_desc: '比较不同城市的薪资和生活成本。'
+        },
+        ja: {
+            page_title: '手取り額計算ツール',
+            page_subtitle: '税引き後の給与を計算し、実際の手取り額を確認しましょう',
+            label_salary: '税込み年収',
+            label_country: '国',
+            label_status: '申告区分',
+            status_single: '独身',
+            status_married: '既婚',
+            btn_calculate: '手取り額を計算',
+            result_net_annual: '年間手取り額',
+            result_monthly: '月額',
+            result_biweekly: '隔週',
+            result_weekly: '週額',
+            result_daily: '日額',
+            legend_net: '手取り',
+            legend_tax: '税金',
+            label_effective_rate: '実効税率：',
+            seo_title: '手取り額の計算方法',
+            seo_p1: '手取り額とは、税込み給与からすべての税金と控除を差し引いた後に実際に受け取る金額です。手取り額を把握することは、予算管理、財務計画、求人評価に不可欠です。国、収入レベル、申告区分によって、税込み給与と手取り額の差は大きくなることがあります。',
+            seo_p2: 'ほとんどの国の税制は累進課税を採用しており、収入の異なる部分に異なる税率が適用されます。例えば米国では、2024年の独身者の場合、最初の11,600ドルは10%で課税され、609,350ドルを超える所得は37%で課税されます。つまり、実効税率は常に限界税率より低くなります。',
+            seo_p3: '当ツールは米国、英国、オーストラリア、カナダの税率に対応しています。税込み年収を入力し、国と申告区分を選択するだけで、年・月・隔週・週・日ごとの手取り額が即座に表示されます。円グラフで税金と手取りの割合を視覚的に確認できます。',
+            more_tools_title: 'その他の給与ツール',
+            tool_counter_title: 'リアルタイム給与カウンター',
+            tool_counter_desc: '秒単位でリアルタイムに収入が増えていく様子を確認。',
+            tool_freelance_title: 'フリーランス単価計算',
+            tool_freelance_desc: '目標に基づいた理想的な時給・日給を算出。',
+            tool_overtime_title: '残業代計算ツール',
+            tool_overtime_desc: '各種倍率での残業代を計算。',
+            tool_comparison_title: '給与比較',
+            tool_comparison_desc: '異なる都市の給与と生活費を比較。'
+        },
+        ko: {
+            page_title: '실수령액 계산기',
+            page_subtitle: '세후 급여를 계산하고 실제 수령액을 확인하세요',
+            label_salary: '세전 연봉',
+            label_country: '국가',
+            label_status: '신고 유형',
+            status_single: '미혼',
+            status_married: '기혼',
+            btn_calculate: '실수령액 계산',
+            result_net_annual: '연간 실수령액',
+            result_monthly: '월급',
+            result_biweekly: '격주',
+            result_weekly: '주급',
+            result_daily: '일급',
+            legend_net: '실수령',
+            legend_tax: '세금',
+            label_effective_rate: '실효세율:',
+            seo_title: '실수령액 계산 방법',
+            seo_p1: '실수령액은 세전 급여에서 모든 세금과 공제를 뺀 후 실제로 받는 금액입니다. 실수령액을 파악하는 것은 예산 관리, 재무 계획, 구직 평가에 필수적입니다. 국가, 소득 수준, 신고 유형에 따라 세전 급여와 실수령액의 차이는 상당할 수 있습니다.',
+            seo_p2: '대부분의 국가 세금 제도는 누진세를 적용하여 소득의 각 구간에 다른 세율이 적용됩니다. 예를 들어 미국에서는 2024년 미혼자 기준 첫 $11,600은 10%로 과세되고, $609,350 이상은 37%로 과세됩니다. 따라서 실효세율은 항상 한계세율보다 낮습니다.',
+            seo_p3: '본 계산기는 미국, 영국, 호주, 캐나다의 세율을 지원합니다. 세전 연봉을 입력하고 국가와 신고 유형을 선택하면 연, 월, 격주, 주, 일별 실수령액이 즉시 표시됩니다. 파이 차트를 통해 급여에서 세금과 실수령액의 비율을 한눈에 확인할 수 있습니다.',
+            more_tools_title: '더 많은 급여 도구',
+            tool_counter_title: '실시간 급여 카운터',
+            tool_counter_desc: '초 단위로 실시간 수입 증가를 확인하세요.',
+            tool_freelance_title: '프리랜서 단가 계산기',
+            tool_freelance_desc: '목표에 맞는 이상적인 시급/일급을 산출합니다.',
+            tool_overtime_title: '야근수당 계산기',
+            tool_overtime_desc: '다양한 배율로 야근수당을 계산합니다.',
+            tool_comparison_title: '급여 비교',
+            tool_comparison_desc: '도시별 급여와 생활비를 비교합니다.'
+        }
+    };
+    </script>
+    <script src="/js/shared.js"></script>
+    <script>
+    (function() {
+        'use strict';
+
+        // Tax brackets (simplified 2024)
+        const TAX_BRACKETS = {
+            US: {
+                single: [
+                    { limit: 11600, rate: 0.10 },
+                    { limit: 47150, rate: 0.12 },
+                    { limit: 100525, rate: 0.22 },
+                    { limit: 191950, rate: 0.24 },
+                    { limit: 243725, rate: 0.32 },
+                    { limit: 609350, rate: 0.35 },
+                    { limit: Infinity, rate: 0.37 }
+                ],
+                married: [
+                    { limit: 23200, rate: 0.10 },
+                    { limit: 94300, rate: 0.12 },
+                    { limit: 201050, rate: 0.22 },
+                    { limit: 383900, rate: 0.24 },
+                    { limit: 487450, rate: 0.32 },
+                    { limit: 731200, rate: 0.35 },
+                    { limit: Infinity, rate: 0.37 }
+                ]
+            },
+            UK: {
+                single: [
+                    { limit: 12570, rate: 0.00 },
+                    { limit: 50270, rate: 0.20 },
+                    { limit: 125140, rate: 0.40 },
+                    { limit: Infinity, rate: 0.45 }
+                ],
+                married: [
+                    { limit: 12570, rate: 0.00 },
+                    { limit: 50270, rate: 0.20 },
+                    { limit: 125140, rate: 0.40 },
+                    { limit: Infinity, rate: 0.45 }
+                ]
+            },
+            AU: {
+                single: [
+                    { limit: 18200, rate: 0.00 },
+                    { limit: 45000, rate: 0.19 },
+                    { limit: 120000, rate: 0.325 },
+                    { limit: 180000, rate: 0.37 },
+                    { limit: Infinity, rate: 0.45 }
+                ],
+                married: [
+                    { limit: 18200, rate: 0.00 },
+                    { limit: 45000, rate: 0.19 },
+                    { limit: 120000, rate: 0.325 },
+                    { limit: 180000, rate: 0.37 },
+                    { limit: Infinity, rate: 0.45 }
+                ]
+            },
+            CA: {
+                single: [
+                    { limit: 55867, rate: 0.15 },
+                    { limit: 111733, rate: 0.205 },
+                    { limit: 154906, rate: 0.26 },
+                    { limit: 220000, rate: 0.29 },
+                    { limit: Infinity, rate: 0.33 }
+                ],
+                married: [
+                    { limit: 55867, rate: 0.15 },
+                    { limit: 111733, rate: 0.205 },
+                    { limit: 154906, rate: 0.26 },
+                    { limit: 220000, rate: 0.29 },
+                    { limit: Infinity, rate: 0.33 }
+                ]
+            }
+        };
+
+        const CURRENCY_SYMBOLS = {
+            US: '$',
+            UK: '£',
+            AU: 'A$',
+            CA: 'C$'
+        };
+
+        function calculateTax(income, brackets) {
+            let tax = 0;
+            let prevLimit = 0;
+            for (const bracket of brackets) {
+                if (income <= prevLimit) break;
+                const taxableInBracket = Math.min(income, bracket.limit) - prevLimit;
+                tax += taxableInBracket * bracket.rate;
+                prevLimit = bracket.limit;
+            }
+            return tax;
+        }
+
+        function formatAmount(amount, country) {
+            const symbol = CURRENCY_SYMBOLS[country] || '$';
+            return symbol + amount.toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
+        }
+
+        function calculate() {
+            const grossSalary = parseFloat(document.getElementById('grossSalary').value);
+            const country = document.getElementById('countrySelect').value;
+            const status = document.getElementById('filingStatus').value;
+
+            if (!grossSalary || grossSalary <= 0) return;
+
+            const brackets = TAX_BRACKETS[country][status];
+            const totalTax = calculateTax(grossSalary, brackets);
+            const netAnnual = grossSalary - totalTax;
+            const effectiveRate = (totalTax / grossSalary) * 100;
+
+            // Display results
+            document.getElementById('netAnnual').textContent = formatAmount(netAnnual, country);
+            document.getElementById('netMonthly').textContent = formatAmount(netAnnual / 12, country);
+            document.getElementById('netBiweekly').textContent = formatAmount(netAnnual / 26, country);
+            document.getElementById('netWeekly').textContent = formatAmount(netAnnual / 52, country);
+            document.getElementById('netDaily').textContent = formatAmount(netAnnual / 260, country);
+            document.getElementById('effectiveRate').textContent = effectiveRate.toFixed(1) + '%';
+
+            // Pie chart (CSS conic-gradient)
+            const netPercent = (netAnnual / grossSalary) * 100;
+            const taxPercent = (totalTax / grossSalary) * 100;
+            const pieChart = document.getElementById('pieChart');
+            pieChart.style.background = `conic-gradient(
+                var(--gold-light) 0% ${netPercent}%,
+                #ef4444 ${netPercent}% 100%
+            )`;
+
+            // Show results
+            document.getElementById('resultsSection').classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('calcBtn').addEventListener('click', calculate);
+
+            // Allow Enter key to trigger calculation
+            document.getElementById('grossSalary').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculate();
+            });
+        });
+    })();
+    </script>
+</body>
+</html>

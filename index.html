@@ -3,57 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salary By Second</title>
+    <title>Salary By Second - Real-Time Earnings Counter | SalaryTools</title>
+    <meta name="description" content="Watch your salary tick up in real-time. Calculate per-second, per-hour, and daily earnings with our free salary counter. Supports multiple currencies and languages.">
+    <meta property="og:title" content="Salary By Second - Real-Time Earnings Counter">
+    <meta property="og:description" content="Watch your hard work transform into real-time earnings. Free online salary counter.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://salarytools.app/">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Salary By Second",
+        "description": "Real-time salary earnings counter that calculates your per-second income",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <link rel="stylesheet" href="/css/shared.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap');
-
-        :root {
-            --gold-light: #e8c547;
-            --gold: #d4a017;
-            --gold-deep: #b8860b;
-            --gold-dark: #8b6914;
-            --gold-glow: rgba(212, 160, 23, 0.4);
-            --gold-subtle: rgba(212, 160, 23, 0.15);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
-            font-family: 'Inter', 'Noto Sans SC', 'Noto Sans JP', 'Noto Sans KR', -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #141420 50%, #0a0a0a 100%);
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1020 30%, #2a1a2a 60%, #1a1020 100%);
         }
 
-        .lang-switcher {
+        .bg-image {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 2000;
-            display: flex;
-            gap: 6px;
-        }
-
-        .lang-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(184, 134, 11, 0.3);
-            color: #999;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
-        .lang-btn.active {
-            background: var(--gold-subtle);
-            border-color: var(--gold);
-            color: var(--gold);
-            font-weight: 600;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format') center center / cover no-repeat;
+            opacity: 0.35;
+            z-index: 0;
+            pointer-events: none;
         }
 
         .bg-particles {
@@ -93,10 +72,10 @@
             100% { background-position: 300% center; }
         }
 
-        header p { font-size: 1.05rem; color: #999; font-weight: 300; letter-spacing: 0.3px; }
+        header p { font-size: 1.05rem; color: #fff; font-weight: 400; letter-spacing: 0.3px; }
 
         .input-section {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid var(--gold-subtle);
             border-radius: 20px; padding: 40px; margin-bottom: 40px;
             backdrop-filter: blur(10px);
@@ -124,7 +103,7 @@
             border-color: var(--gold); box-shadow: 0 0 20px var(--gold-glow);
         }
 
-        .input-group input::placeholder { color: #555; }
+        .input-group input::placeholder { color: #bbb; }
 
         .input-group select {
             cursor: pointer; appearance: none;
@@ -172,7 +151,7 @@
 
         .calendar-day-header {
             text-align: center; font-family: 'DM Sans', sans-serif;
-            font-size: 0.7rem; color: #777; padding: 8px 0;
+            font-size: 0.7rem; color: #ddd; padding: 8px 0;
             text-transform: uppercase; letter-spacing: 1px;
         }
 
@@ -206,7 +185,7 @@
             font-weight: 700;
         }
 
-        .calendar-day.other-month { color: #444; }
+        .calendar-day.other-month { color: #999; }
         .calendar-day.today { border: 1px solid rgba(184, 134, 11, 0.6); }
 
         .selected-days-display { margin-top: 15px; font-size: 0.9rem; color: #aaa; }
@@ -237,12 +216,12 @@
 
         .motivational-quote {
             font-family: 'DM Sans', sans-serif; font-size: 1rem;
-            color: #888; font-style: italic; margin-bottom: 40px; min-height: 30px;
+            color: #ddd; font-style: italic; margin-bottom: 40px; min-height: 30px;
         }
 
         .today-date-display {
             font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
-            color: #777; margin-bottom: 20px; letter-spacing: 0.5px;
+            color: #ddd; margin-bottom: 20px; letter-spacing: 0.5px;
         }
         .today-date-display span { color: var(--gold); font-weight: 600; }
 
@@ -262,13 +241,13 @@
 
         .total-earned-section {
             margin-top: 30px; padding: 25px;
-            background: rgba(184, 134, 11, 0.05);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(184, 134, 11, 0.2); border-radius: 15px;
         }
 
         .total-earned-label {
             font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
-            text-transform: uppercase; letter-spacing: 2px; color: #888; margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 2px; color: #ddd; margin-bottom: 8px;
         }
 
         .total-earned-value {
@@ -278,14 +257,14 @@
 
         .per-second-display {
             font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;
-            color: #999; margin-bottom: 40px;
+            color: #ddd; margin-bottom: 40px;
         }
         .per-second-display span { color: var(--gold); }
 
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(184, 134, 11, 0.12);
             border-radius: 15px; padding: 25px 15px;
         }
@@ -295,7 +274,7 @@
         }
         .stat-card .stat-label {
             font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
-            color: #777; text-transform: uppercase; letter-spacing: 1px;
+            color: #ddd; text-transform: uppercase; letter-spacing: 1px;
         }
 
         .progress-bar {
@@ -308,13 +287,13 @@
         }
         .progress-label {
             display: flex; justify-content: space-between; margin-top: 10px;
-            font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #555;
+            font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #bbb;
         }
 
         .reset-btn {
             margin-top: 40px; padding: 12px 30px; background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px;
-            color: #666; cursor: pointer; font-family: 'DM Sans', sans-serif;
+            color: #ccc; cursor: pointer; font-family: 'DM Sans', sans-serif;
             font-size: 0.85rem; transition: all 0.3s ease;
         }
         .reset-btn:hover { border-color: var(--gold); color: var(--gold); }
@@ -381,19 +360,11 @@
             .total-earned-value { font-size: 1.6rem; }
             .stats-grid { grid-template-columns: 1fr; }
             header h1 { font-size: 1.6rem; }
-            .lang-switcher { top: 10px; right: 10px; }
-            .lang-btn { padding: 4px 8px; font-size: 0.7rem; }
         }
     </style>
 </head>
 <body>
-    <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="zh">中文</button>
-        <button class="lang-btn" data-lang="ja">日本語</button>
-        <button class="lang-btn" data-lang="ko">한국어</button>
-    </div>
-
+    <div class="bg-image"></div>
     <div class="bg-particles" id="particles"></div>
     <div class="falling-container" id="fallingContainer"></div>
 
@@ -431,7 +402,7 @@
 
                 <div class="calendar-section">
                     <label style="font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; display: block; margin-bottom: 8px;" data-i18n="working_days">Working Days</label>
-                    <p style="font-size: 0.75rem; color: #666; margin-bottom: 15px;" data-i18n="drag_hint">Click to toggle, or drag to select/deselect multiple days</p>
+                    <p style="font-size: 0.75rem; color: #ccc; margin-bottom: 15px;" data-i18n="drag_hint">Click to toggle, or drag to select/deselect multiple days</p>
                     <div class="calendar-header">
                         <button id="prevMonth">&#8249;</button>
                         <span id="calendarTitle"></span>
@@ -440,12 +411,12 @@
                     <div class="calendar-grid" id="calendarGrid"></div>
                     <div class="selected-days-display">
                         <span data-i18n="selected_days">Selected working days:</span> <span id="selectedCount">0</span>
-                        <span style="margin-left: 15px; color: #777;" data-i18n="half_day_count_label">Half days:</span> <span id="halfDayCount" style="color: var(--gold); font-family: 'Space Grotesk', sans-serif; font-weight: 700;">0</span>
+                        <span style="margin-left: 15px; color: #ddd;" data-i18n="half_day_count_label">Half days:</span> <span id="halfDayCount" style="color: var(--gold); font-family: 'Space Grotesk', sans-serif; font-weight: 700;">0</span>
                     </div>
-                    <div style="margin-top: 10px; font-size: 0.72rem; color: #666; display: flex; gap: 15px; align-items: center;">
+                    <div style="margin-top: 10px; font-size: 0.72rem; color: #ccc; display: flex; gap: 15px; align-items: center;">
                         <span><span style="display:inline-block; width:12px; height:12px; border-radius:3px; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); vertical-align: middle; margin-right: 4px;"></span> <span data-i18n="legend_full">Full day</span></span>
                         <span><span style="display:inline-block; width:12px; height:12px; border-radius:3px; background: linear-gradient(135deg, rgba(212,160,23,0.5), rgba(184,134,11,0.4)); vertical-align: middle; margin-right: 4px;"></span> <span data-i18n="legend_half">Half day</span></span>
-                        <span style="color: #555;" data-i18n="right_click_hint">Right-click = half day</span>
+                        <span style="color: #bbb;" data-i18n="right_click_hint">Right-click = half day</span>
                     </div>
                 </div>
             </div>
@@ -464,7 +435,7 @@
             <div class="total-earned-section" style="margin-top: 15px; border-color: rgba(184, 134, 11, 0.3);">
                 <div class="total-earned-label" data-i18n="total_month">Total Earned This Month</div>
                 <div class="total-earned-value" id="totalEarnedMonth">$0.00</div>
-                <div style="font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #666; margin-top: 6px;" id="monthBreakdown"></div>
+                <div style="font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #ccc; margin-top: 6px;" id="monthBreakdown"></div>
             </div>
 
             <div class="stats-grid">
@@ -521,6 +492,15 @@
                 legend_half: "Half day",
                 right_click_hint: "Right-click = half day",
                 completed_days: "{n} completed day(s) + today in progress",
+                more_tools: "More Salary Tools",
+                tool_takehome_title: "Take-Home Pay Calculator",
+                tool_takehome_desc: "Calculate your after-tax salary with country-specific tax brackets for US, UK, Australia, and Canada.",
+                tool_freelance_title: "Freelance Rate Calculator",
+                tool_freelance_desc: "Convert your salary to an equivalent freelance hourly rate, accounting for benefits, taxes, and overhead.",
+                tool_overtime_title: "Overtime Calculator",
+                tool_overtime_desc: "Calculate your overtime pay with 1.5x and 2x multipliers. See regular vs overtime earnings breakdown.",
+                tool_comparison_title: "Salary Comparison Tool",
+                tool_comparison_desc: "Compare your salary across 30+ global cities adjusted for cost of living and purchasing power.",
                 quotes: [
                     "Every second counts. Your time is literally money.",
                     "Success is the sum of small efforts, repeated day in and day out.",
@@ -559,6 +539,15 @@
                 legend_half: "半天",
                 right_click_hint: "右键 = 设为半天",
                 completed_days: "{n} 天已完成 + 今天进行中",
+                more_tools: "更多薪资工具",
+                tool_takehome_title: "税后工资计算器",
+                tool_takehome_desc: "根据美国、英国、澳大利亚和加拿大的税率计算你的税后工资。",
+                tool_freelance_title: "自由职业费率计算器",
+                tool_freelance_desc: "将你的工资转换为等效的自由职业时薪，包含福利、税费和间接成本。",
+                tool_overtime_title: "加班工资计算器",
+                tool_overtime_desc: "使用1.5倍和2倍加班倍率计算加班费。查看常规与加班收入的明细。",
+                tool_comparison_title: "薪资对比工具",
+                tool_comparison_desc: "根据生活成本和购买力，在全球30多个城市之间比较你的薪资。",
                 quotes: [
                     "每一秒都算数，你的时间就是金钱。",
                     "成功是日复一日小努力的总和。",
@@ -597,6 +586,15 @@
                 legend_half: "半日",
                 right_click_hint: "右クリック = 半日",
                 completed_days: "{n}日完了 + 今日進行中",
+                more_tools: "その他の給与ツール",
+                tool_takehome_title: "手取り計算機",
+                tool_takehome_desc: "米国、英国、オーストラリア、カナダの税率で税引後の給与を計算します。",
+                tool_freelance_title: "フリーランス単価計算機",
+                tool_freelance_desc: "給与をフリーランスの時給に換算。福利厚生、税金、諸経費を考慮。",
+                tool_overtime_title: "残業代計算機",
+                tool_overtime_desc: "1.5倍・2倍の残業代を計算。通常勤務と残業収入の内訳を表示。",
+                tool_comparison_title: "給与比較ツール",
+                tool_comparison_desc: "生活費と購買力を考慮して、世界30以上の都市で給与を比較できます。",
                 quotes: [
                     "一秒一秒が大切。あなたの時間はお金そのもの。",
                     "成功とは、日々の小さな努力の積み重ね。",
@@ -635,6 +633,15 @@
                 legend_half: "반일",
                 right_click_hint: "우클릭 = 반일",
                 completed_days: "{n}일 완료 + 오늘 진행 중",
+                more_tools: "더 많은 급여 도구",
+                tool_takehome_title: "실수령액 계산기",
+                tool_takehome_desc: "미국, 영국, 호주, 캐나다의 세율로 세후 급여를 계산합니다.",
+                tool_freelance_title: "프리랜서 단가 계산기",
+                tool_freelance_desc: "급여를 프리랜서 시급으로 환산. 복리후생, 세금, 간접비를 고려합니다.",
+                tool_overtime_title: "야근수당 계산기",
+                tool_overtime_desc: "1.5배, 2배 야근수당을 계산합니다. 정규 근무와 야근 수입 내역을 확인하세요.",
+                tool_comparison_title: "급여 비교 도구",
+                tool_comparison_desc: "생활비와 구매력을 기준으로 전 세계 30개 이상의 도시에서 급여를 비교합니다.",
                 quotes: [
                     "매 초가 중요합니다. 당신의 시간은 곧 돈입니다.",
                     "성공은 매일 반복되는 작은 노력의 총합입니다.",
@@ -652,22 +659,10 @@
 
         let currentLang = 'en';
 
-        function setLanguage(lang) {
+        window.pageI18n = i18n;
+        window.onLanguageChange = function(lang) {
             currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === lang);
-            });
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.dataset.i18n;
-                if (i18n[lang][key]) {
-                    el.textContent = i18n[lang][key];
-                }
-            });
-        }
-
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
-        });
+        };
 
         // ====== STATE ======
         let selectedDays = new Set();  // full working days
@@ -971,18 +966,15 @@
 
             countingInterval = setInterval(() => {
                 const now = new Date();
-
-                const workStartToday = new Date(setToday);
-                workStartToday.setHours(0, workStartMinutes, 0, 0);
-
-                const workEndToday = new Date(setToday);
-                workEndToday.setHours(0, workEndMinutes, 0, 0);
+                const nowSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+                const startSeconds = workStartMinutes * 60;
+                const endSeconds = workEndMinutes * 60;
 
                 let secondsWorkedToday = 0;
-                if (now >= workEndToday) {
+                if (nowSeconds >= endSeconds) {
                     secondsWorkedToday = workDurationMinutes * 60;
-                } else if (now > workStartToday) {
-                    secondsWorkedToday = (now - workStartToday) / 1000;
+                } else if (nowSeconds > startSeconds) {
+                    secondsWorkedToday = nowSeconds - startSeconds;
                 }
 
                 const totalEarnedToday = perSecondRate * secondsWorkedToday;
@@ -1007,17 +999,7 @@
                     }
                 }
 
-                // Check if today is a half day
-                const todayKey = `${todayYear}-${todayMonth}-${todayDay}`;
-                const isTodayHalf = halfDays.has(todayKey);
-                const halfDayDuration = workDurationMinutes * 60 * 0.5;
-
-                // Cap today's seconds if it's a half day
-                let effectiveSecondsToday = secondsWorkedToday;
-                if (isTodayHalf) {
-                    effectiveSecondsToday = Math.min(secondsWorkedToday, halfDayDuration);
-                }
-                const actualEarnedToday = perSecondRate * effectiveSecondsToday;
+                const actualEarnedToday = perSecondRate * secondsWorkedToday;
 
                 const dailyEarning = perSecondRate * workDurationMinutes * 60;
                 const pastDaysEarned = (completedFullDays * dailyEarning) + (completedHalfDays * dailyEarning * 0.5);
@@ -1034,12 +1016,11 @@
                     lastCoinThreshold = currentThreshold;
                 }
 
-                const todayTotalSeconds = isTodayHalf ? halfDayDuration : (workDurationMinutes * 60);
-                const progressPercent = Math.min(Math.max((effectiveSecondsToday / todayTotalSeconds) * 100, 0), 100);
+                const todayTotalSeconds = workDurationMinutes * 60;
+                const progressPercent = Math.min(Math.max((secondsWorkedToday / todayTotalSeconds) * 100, 0), 100);
                 document.getElementById('progressFill').style.width = progressPercent + '%';
                 document.getElementById('progressPercent').textContent = progressPercent.toFixed(1) + '%';
 
-                // Show half-day aware today earnings
                 document.getElementById('earningsDisplay').textContent = '$' + actualEarnedToday.toFixed(4);
             }, 50);
 
@@ -1075,6 +1056,29 @@
         autoSelectWeekdays();
         renderCalendar();
     </script>
+    <div class="more-tools" style="max-width: 900px; margin: 60px auto 0; padding: 0 20px; position: relative; z-index: 10;">
+        <h2 data-i18n="more_tools">More Salary Tools</h2>
+        <div class="tools-grid">
+            <a href="/take-home-pay/" class="tool-card">
+                <h3 data-i18n="tool_takehome_title">Take-Home Pay Calculator</h3>
+                <p data-i18n="tool_takehome_desc">Calculate your after-tax salary with country-specific tax brackets for US, UK, Australia, and Canada.</p>
+            </a>
+            <a href="/freelance-rate/" class="tool-card">
+                <h3 data-i18n="tool_freelance_title">Freelance Rate Calculator</h3>
+                <p data-i18n="tool_freelance_desc">Convert your salary to an equivalent freelance hourly rate, accounting for benefits, taxes, and overhead.</p>
+            </a>
+            <a href="/overtime/" class="tool-card">
+                <h3 data-i18n="tool_overtime_title">Overtime Calculator</h3>
+                <p data-i18n="tool_overtime_desc">Calculate your overtime pay with 1.5x and 2x multipliers. See regular vs overtime earnings breakdown.</p>
+            </a>
+            <a href="/salary-comparison/" class="tool-card">
+                <h3 data-i18n="tool_comparison_title">Salary Comparison Tool</h3>
+                <p data-i18n="tool_comparison_desc">Compare your salary across 30+ global cities adjusted for cost of living and purchasing power.</p>
+            </a>
+        </div>
+    </div>
+
+    <script src="/js/shared.js"></script>
     <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

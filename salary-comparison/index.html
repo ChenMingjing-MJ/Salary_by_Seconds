@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Comparison Tool - Cost of Living Calculator | SalaryTools</title>
+    <meta name="description" content="Compare salaries across cities worldwide with our cost-of-living calculator. Find out what your salary is worth in different cities and make informed relocation decisions.">
+    <meta property="og:title" content="Salary Comparison Tool - Cost of Living Calculator">
+    <meta property="og:description" content="Compare salaries across cities worldwide. Calculate equivalent salary, cost-of-living differences, and purchasing power.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://salarytools.app/salary-comparison/">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Salary Comparison Tool",
+        "description": "Compare salaries across cities worldwide with cost-of-living adjustments",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <link rel="stylesheet" href="/css/shared.css">
+    <style>
+        .chart-section {
+            margin-top: 25px;
+            padding: 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 15px;
+        }
+
+        .chart-section h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .comparison-card .comp-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .comparison-card .comp-meta span {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .col-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .col-badge.higher {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+        }
+
+        .col-badge.lower {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+        }
+
+        .col-badge.same {
+            background: var(--gold-subtle);
+            color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-image"></div>
+
+<div class="page-container">
+    <!-- Ad Slot: Leaderboard -->
+    <div class="ad-slot ad-slot-leaderboard"></div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 data-i18n="page_title">Salary Comparison Tool</h1>
+        <p data-i18n="page_subtitle">Compare your salary across cities and understand your purchasing power worldwide</p>
+    </div>
+
+    <!-- Calculator Card -->
+    <div class="calc-card">
+        <div class="calc-grid">
+            <div class="form-group calc-full-width">
+                <label data-i18n="label_salary">Current Annual Salary ($)</label>
+                <input type="number" id="currentSalary" placeholder="100000" min="0">
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_current_city">Current City</label>
+                <select id="currentCity"></select>
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_target_city">Target City</label>
+                <select id="targetCity"></select>
+            </div>
+        </div>
+        <button class="calc-btn" id="calculateBtn" data-i18n="btn_calculate">COMPARE SALARIES</button>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section" id="resultsSection">
+        <div class="result-highlight">
+            <div class="result-label" data-i18n="result_equivalent_label">Equivalent Salary in Target City</div>
+            <div class="result-value" id="equivalentSalary">$0</div>
+        </div>
+
+        <div class="results-grid">
+            <div class="result-card">
+                <div class="result-card-value" id="colDifference">0%</div>
+                <div class="result-card-label" data-i18n="result_col_diff">COL Difference</div>
+            </div>
+            <div class="result-card">
+                <div class="result-card-value" id="purchasingPower">$0</div>
+                <div class="result-card-label" data-i18n="result_purchasing_power">Purchasing Power</div>
+            </div>
+            <div class="result-card">
+                <div class="result-card-value" id="rentDifference">0%</div>
+                <div class="result-card-label" data-i18n="result_rent_diff">Rent Difference</div>
+            </div>
+        </div>
+
+        <!-- Comparison Cards -->
+        <div class="comparison-cards">
+            <div class="comparison-card">
+                <h3 data-i18n="card_current_city">Current City</h3>
+                <div class="comp-value" id="compCurrentSalary">$0</div>
+                <div class="comp-detail" id="compCurrentCity">-</div>
+                <div class="comp-meta">
+                    <span id="compCurrentCOL">COL Index: -</span>
+                    <span id="compCurrentRent">Rent Index: -</span>
+                </div>
+            </div>
+            <div class="comparison-card">
+                <h3 data-i18n="card_target_city">Target City</h3>
+                <div class="comp-value" id="compTargetSalary">$0</div>
+                <div class="comp-detail" id="compTargetCity">-</div>
+                <div class="comp-meta">
+                    <span id="compTargetCOL">COL Index: -</span>
+                    <span id="compTargetRent">Rent Index: -</span>
+                </div>
+                <div class="col-badge" id="colBadge"></div>
+            </div>
+        </div>
+
+        <!-- Bar Chart -->
+        <div class="chart-section">
+            <h3 data-i18n="chart_title">City Comparison</h3>
+            <div class="bar-chart">
+                <div class="bar-row">
+                    <div class="bar-label" id="barLabel1">City 1</div>
+                    <div class="bar-track">
+                        <div class="bar-fill gold" id="barFill1" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label" id="barLabel2">City 2</div>
+                    <div class="bar-track">
+                        <div class="bar-fill blue" id="barFill2" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Slot: Banner -->
+    <div class="ad-slot ad-slot-banner"></div>
+
+    <!-- SEO Content -->
+    <div class="seo-content">
+        <h2 data-i18n="seo_title">How Cost of Living Affects Your Salary</h2>
+        <p data-i18n="seo_p1">When considering a job offer in a new city or evaluating a relocation opportunity, the raw salary number only tells part of the story. Cost of living varies dramatically between cities, meaning that a $100,000 salary in Houston, Texas provides a significantly different lifestyle than the same salary in New York City or San Francisco.</p>
+        <p data-i18n="seo_p2">Cost-of-living adjustments account for differences in housing costs, groceries, transportation, healthcare, and general goods and services. For example, a $100,000 salary in Houston (COL index 65) would need to be approximately $154,000 in New York (COL index 100) to maintain the same standard of living. This is why many companies offer location-based pay bands.</p>
+        <p data-i18n="seo_p3">Our salary comparison tool uses cost-of-living indices benchmarked against New York City (index = 100) to help you understand what your salary is truly worth across different cities worldwide. Use this data to negotiate relocation packages, evaluate remote work compensation, or plan international moves with confidence.</p>
+    </div>
+
+    <!-- More Tools -->
+    <div class="more-tools">
+        <h2 data-i18n="more_tools_title">More Salary Tools</h2>
+        <div class="tools-grid">
+            <a href="/" class="tool-card">
+                <h3 data-i18n="tool_counter_title">Salary Counter</h3>
+                <p data-i18n="tool_counter_desc">Watch your earnings tick up in real-time, second by second</p>
+            </a>
+            <a href="/take-home-pay/" class="tool-card">
+                <h3 data-i18n="tool_takehome_title">Take-Home Pay</h3>
+                <p data-i18n="tool_takehome_desc">Calculate your net pay after taxes and deductions</p>
+            </a>
+            <a href="/freelance-rate/" class="tool-card">
+                <h3 data-i18n="tool_freelance_title">Freelance Rate Calculator</h3>
+                <p data-i18n="tool_freelance_desc">Find the ideal hourly rate for your freelance work</p>
+            </a>
+            <a href="/overtime/" class="tool-card">
+                <h3 data-i18n="tool_overtime_title">Overtime Calculator</h3>
+                <p data-i18n="tool_overtime_desc">Calculate overtime pay and total weekly compensation</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script src="/js/shared.js"></script>
+<script>
+(function() {
+    'use strict';
+
+    // City data (Cost of Living index, New York = 100)
+    const cities = {
+        'New York, US': { col: 100, rent: 100 },
+        'San Francisco, US': { col: 97, rent: 110 },
+        'Los Angeles, US': { col: 82, rent: 85 },
+        'Chicago, US': { col: 72, rent: 55 },
+        'Houston, US': { col: 65, rent: 45 },
+        'Miami, US': { col: 78, rent: 70 },
+        'Seattle, US': { col: 83, rent: 75 },
+        'Boston, US': { col: 85, rent: 80 },
+        'London, UK': { col: 93, rent: 95 },
+        'Manchester, UK': { col: 65, rent: 45 },
+        'Paris, France': { col: 85, rent: 75 },
+        'Berlin, Germany': { col: 65, rent: 45 },
+        'Munich, Germany': { col: 78, rent: 65 },
+        'Amsterdam, Netherlands': { col: 78, rent: 70 },
+        'Zurich, Switzerland': { col: 120, rent: 115 },
+        'Dublin, Ireland': { col: 82, rent: 75 },
+        'Tokyo, Japan': { col: 76, rent: 60 },
+        'Osaka, Japan': { col: 65, rent: 42 },
+        'Seoul, South Korea': { col: 72, rent: 50 },
+        'Singapore': { col: 85, rent: 95 },
+        'Hong Kong': { col: 88, rent: 110 },
+        'Shanghai, China': { col: 58, rent: 48 },
+        'Beijing, China': { col: 55, rent: 45 },
+        'Shenzhen, China': { col: 52, rent: 40 },
+        'Sydney, Australia': { col: 82, rent: 70 },
+        'Melbourne, Australia': { col: 75, rent: 55 },
+        'Toronto, Canada': { col: 73, rent: 60 },
+        'Vancouver, Canada': { col: 75, rent: 65 },
+        'Dubai, UAE': { col: 70, rent: 60 },
+        'Bangkok, Thailand': { col: 40, rent: 22 },
+        'Lisbon, Portugal': { col: 55, rent: 40 },
+        'Austin, US': { col: 68, rent: 50 }
+    };
+
+    // i18n translations
+    window.pageI18n = {
+        en: {
+            page_title: 'Salary Comparison Tool',
+            page_subtitle: 'Compare your salary across cities and understand your purchasing power worldwide',
+            label_salary: 'Current Annual Salary ($)',
+            label_current_city: 'Current City',
+            label_target_city: 'Target City',
+            btn_calculate: 'COMPARE SALARIES',
+            result_equivalent_label: 'Equivalent Salary in Target City',
+            result_col_diff: 'COL Difference',
+            result_purchasing_power: 'Purchasing Power',
+            result_rent_diff: 'Rent Difference',
+            card_current_city: 'Current City',
+            card_target_city: 'Target City',
+            chart_title: 'City Comparison',
+            seo_title: 'How Cost of Living Affects Your Salary',
+            seo_p1: 'When considering a job offer in a new city or evaluating a relocation opportunity, the raw salary number only tells part of the story. Cost of living varies dramatically between cities, meaning that a $100,000 salary in Houston, Texas provides a significantly different lifestyle than the same salary in New York City or San Francisco.',
+            seo_p2: 'Cost-of-living adjustments account for differences in housing costs, groceries, transportation, healthcare, and general goods and services. For example, a $100,000 salary in Houston (COL index 65) would need to be approximately $154,000 in New York (COL index 100) to maintain the same standard of living. This is why many companies offer location-based pay bands.',
+            seo_p3: 'Our salary comparison tool uses cost-of-living indices benchmarked against New York City (index = 100) to help you understand what your salary is truly worth across different cities worldwide. Use this data to negotiate relocation packages, evaluate remote work compensation, or plan international moves with confidence.',
+            more_tools_title: 'More Salary Tools',
+            tool_counter_title: 'Salary Counter',
+            tool_counter_desc: 'Watch your earnings tick up in real-time, second by second',
+            tool_takehome_title: 'Take-Home Pay',
+            tool_takehome_desc: 'Calculate your net pay after taxes and deductions',
+            tool_freelance_title: 'Freelance Rate Calculator',
+            tool_freelance_desc: 'Find the ideal hourly rate for your freelance work',
+            tool_overtime_title: 'Overtime Calculator',
+            tool_overtime_desc: 'Calculate overtime pay and total weekly compensation',
+            badge_higher: 'Higher COL',
+            badge_lower: 'Lower COL',
+            badge_same: 'Same COL'
+        },
+        zh: {
+            page_title: '薪资对比工具',
+            page_subtitle: '比较不同城市的薪资水平，了解您的购买力',
+            label_salary: '当前年薪 ($)',
+            label_current_city: '当前城市',
+            label_target_city: '目标城市',
+            btn_calculate: '比较薪资',
+            result_equivalent_label: '目标城市等效薪资',
+            result_col_diff: '生活成本差异',
+            result_purchasing_power: '购买力',
+            result_rent_diff: '租金差异',
+            card_current_city: '当前城市',
+            card_target_city: '目标城市',
+            chart_title: '城市对比',
+            seo_title: '生活成本如何影响您的薪资',
+            seo_p1: '在考虑新城市的工作机会或评估搬迁时，单纯的薪资数字只能说明部分问题。不同城市之间的生活成本差异巨大，这意味着在休斯顿10万美元的薪资与在纽约或旧金山相同的薪资所能提供的生活水平截然不同。',
+            seo_p2: '生活成本调整考虑了住房、食品、交通、医疗和日常商品服务的价格差异。例如，休斯顿10万美元的薪资（生活成本指数65）在纽约（生活成本指数100）需要大约15.4万美元才能维持相同的生活水平。这就是为什么许多公司提供基于地点的薪资等级。',
+            seo_p3: '我们的薪资比较工具使用以纽约市为基准（指数=100）的生活成本指数，帮助您了解薪资在全球不同城市的真实价值。使用这些数据来谈判搬迁方案、评估远程工作补偿或自信地规划国际搬迁。',
+            more_tools_title: '更多薪资工具',
+            tool_counter_title: '实时薪资计算器',
+            tool_counter_desc: '实时观看您的收入逐秒增长',
+            tool_takehome_title: '税后工资计算器',
+            tool_takehome_desc: '计算扣除税费后的实际到手工资',
+            tool_freelance_title: '自由职业费率计算器',
+            tool_freelance_desc: '找到适合您自由职业的理想时薪',
+            tool_overtime_title: '加班工资计算器',
+            tool_overtime_desc: '计算加班费和每周总薪酬',
+            badge_higher: '生活成本更高',
+            badge_lower: '生活成本更低',
+            badge_same: '生活成本相同'
+        },
+        ja: {
+            page_title: '給与比較ツール',
+            page_subtitle: '世界中の都市で給与を比較し、購買力を把握しましょう',
+            label_salary: '現在の年収 ($)',
+            label_current_city: '現在の都市',
+            label_target_city: '目標都市',
+            btn_calculate: '給与を比較',
+            result_equivalent_label: '目標都市での相当給与',
+            result_col_diff: '生活費の差',
+            result_purchasing_power: '購買力',
+            result_rent_diff: '家賃の差',
+            card_current_city: '現在の都市',
+            card_target_city: '目標都市',
+            chart_title: '都市比較',
+            seo_title: '生活費が給与に与える影響',
+            seo_p1: '新しい都市での仕事や転居を検討する際、額面の給与だけでは全体像を把握できません。都市間で生活費は大きく異なり、テキサス州ヒューストンでの10万ドルの給与は、ニューヨークやサンフランシスコでの同じ給与とは大きく異なる生活水準を提供します。',
+            seo_p2: '生活費調整は、住居費、食料品、交通費、医療費、一般的な商品やサービスの違いを考慮しています。例えば、ヒューストンでの10万ドルの給与（生活費指数65）は、ニューヨーク（生活費指数100）で同じ生活水準を維持するために約15.4万ドルが必要です。',
+            seo_p3: '当社の給与比較ツールは、ニューヨーク市を基準（指数=100）とした生活費指数を使用して、世界中の都市での給与の真の価値を理解するのに役立ちます。転居パッケージの交渉、リモートワークの報酬評価、国際的な移転計画にご活用ください。',
+            more_tools_title: 'その他の給与ツール',
+            tool_counter_title: '秒給カウンター',
+            tool_counter_desc: 'リアルタイムで収入が増えていく様子を確認',
+            tool_takehome_title: '手取り計算機',
+            tool_takehome_desc: '税金と控除後の実質給与を計算',
+            tool_freelance_title: 'フリーランス単価計算機',
+            tool_freelance_desc: 'フリーランスに最適な時給を算出',
+            tool_overtime_title: '残業代計算機',
+            tool_overtime_desc: '残業代と週間総報酬を計算',
+            badge_higher: '生活費が高い',
+            badge_lower: '生活費が低い',
+            badge_same: '生活費が同じ'
+        },
+        ko: {
+            page_title: '급여 비교 도구',
+            page_subtitle: '전 세계 도시의 급여를 비교하고 구매력을 파악하세요',
+            label_salary: '현재 연봉 ($)',
+            label_current_city: '현재 도시',
+            label_target_city: '목표 도시',
+            btn_calculate: '급여 비교',
+            result_equivalent_label: '목표 도시 환산 급여',
+            result_col_diff: '생활비 차이',
+            result_purchasing_power: '구매력',
+            result_rent_diff: '임대료 차이',
+            card_current_city: '현재 도시',
+            card_target_city: '목표 도시',
+            chart_title: '도시 비교',
+            seo_title: '생활비가 급여에 미치는 영향',
+            seo_p1: '새로운 도시에서의 일자리나 이주를 고려할 때, 급여 숫자만으로는 전체 그림을 파악할 수 없습니다. 도시마다 생활비가 크게 다르기 때문에, 텍사스 휴스턴에서의 10만 달러 급여는 뉴욕이나 샌프란시스코에서의 같은 급여와는 매우 다른 생활 수준을 제공합니다.',
+            seo_p2: '생활비 조정은 주거비, 식료품, 교통비, 의료비 및 일반 상품과 서비스의 차이를 반영합니다. 예를 들어, 휴스턴에서 10만 달러 급여(생활비 지수 65)는 뉴욕(생활비 지수 100)에서 같은 생활 수준을 유지하려면 약 15.4만 달러가 필요합니다.',
+            seo_p3: '우리의 급여 비교 도구는 뉴욕시를 기준(지수=100)으로 한 생활비 지수를 사용하여 전 세계 도시에서 급여의 실제 가치를 이해하는 데 도움을 줍니다. 이 데이터를 활용하여 이주 패키지 협상, 원격 근무 보상 평가, 국제 이주 계획을 자신감 있게 수립하세요.',
+            more_tools_title: '더 많은 급여 도구',
+            tool_counter_title: '실시간 급여 카운터',
+            tool_counter_desc: '초 단위로 수입이 증가하는 것을 실시간으로 확인',
+            tool_takehome_title: '실수령액 계산기',
+            tool_takehome_desc: '세금과 공제 후 실제 수령액 계산',
+            tool_freelance_title: '프리랜서 단가 계산기',
+            tool_freelance_desc: '프리랜서 업무에 적합한 시급 산출',
+            tool_overtime_title: '야근수당 계산기',
+            tool_overtime_desc: '야근 수당과 주간 총 보수 계산',
+            badge_higher: '생활비 높음',
+            badge_lower: '생활비 낮음',
+            badge_same: '생활비 동일'
+        }
+    };
+
+    // Populate city dropdowns
+    function populateDropdowns() {
+        const currentSelect = document.getElementById('currentCity');
+        const targetSelect = document.getElementById('targetCity');
+        const cityNames = Object.keys(cities);
+
+        cityNames.forEach((city, idx) => {
+            const opt1 = document.createElement('option');
+            opt1.value = city;
+            opt1.textContent = city;
+            currentSelect.appendChild(opt1);
+
+            const opt2 = document.createElement('option');
+            opt2.value = city;
+            opt2.textContent = city;
+            targetSelect.appendChild(opt2);
+        });
+
+        // Set defaults
+        currentSelect.value = 'New York, US';
+        targetSelect.value = 'San Francisco, US';
+    }
+
+    // Calculate and display results
+    function calculate() {
+        const salary = parseFloat(document.getElementById('currentSalary').value);
+        const currentCityName = document.getElementById('currentCity').value;
+        const targetCityName = document.getElementById('targetCity').value;
+
+        if (!salary || salary <= 0) {
+            return;
+        }
+
+        const currentData = cities[currentCityName];
+        const targetData = cities[targetCityName];
+
+        if (!currentData || !targetData) return;
+
+        const currentCOL = currentData.col;
+        const targetCOL = targetData.col;
+        const currentRent = currentData.rent;
+        const targetRent = targetData.rent;
+
+        // Calculations
+        const equivalentSalary = salary * (targetCOL / currentCOL);
+        const colDifference = ((targetCOL - currentCOL) / currentCOL) * 100;
+        const purchasingPower = salary * (currentCOL / targetCOL);
+        const rentDifference = ((targetRent - currentRent) / currentRent) * 100;
+
+        // Display results
+        document.getElementById('equivalentSalary').textContent = formatCurrency(equivalentSalary);
+        document.getElementById('colDifference').textContent = (colDifference >= 0 ? '+' : '') + colDifference.toFixed(1) + '%';
+        document.getElementById('purchasingPower').textContent = formatCurrency(purchasingPower);
+        document.getElementById('rentDifference').textContent = (rentDifference >= 0 ? '+' : '') + rentDifference.toFixed(1) + '%';
+
+        // Comparison cards
+        document.getElementById('compCurrentSalary').textContent = formatCurrency(salary);
+        document.getElementById('compCurrentCity').textContent = currentCityName;
+        document.getElementById('compCurrentCOL').textContent = 'COL Index: ' + currentCOL;
+        document.getElementById('compCurrentRent').textContent = 'Rent Index: ' + currentRent;
+
+        document.getElementById('compTargetSalary').textContent = formatCurrency(equivalentSalary);
+        document.getElementById('compTargetCity').textContent = targetCityName;
+        document.getElementById('compTargetCOL').textContent = 'COL Index: ' + targetCOL;
+        document.getElementById('compTargetRent').textContent = 'Rent Index: ' + targetRent;
+
+        // COL badge
+        const badge = document.getElementById('colBadge');
+        const lang = window.currentLang || 'en';
+        if (colDifference > 0) {
+            badge.className = 'col-badge higher';
+            badge.textContent = window.pageI18n[lang].badge_higher;
+        } else if (colDifference < 0) {
+            badge.className = 'col-badge lower';
+            badge.textContent = window.pageI18n[lang].badge_lower;
+        } else {
+            badge.className = 'col-badge same';
+            badge.textContent = window.pageI18n[lang].badge_same;
+        }
+
+        // Bar chart
+        const maxCOL = Math.max(currentCOL, targetCOL);
+        const bar1Width = (currentCOL / maxCOL) * 100;
+        const bar2Width = (targetCOL / maxCOL) * 100;
+
+        document.getElementById('barLabel1').textContent = currentCityName.split(',')[0];
+        document.getElementById('barLabel2').textContent = targetCityName.split(',')[0];
+        document.getElementById('barFill1').style.width = bar1Width + '%';
+        document.getElementById('barFill1').textContent = currentCOL;
+        document.getElementById('barFill2').style.width = bar2Width + '%';
+        document.getElementById('barFill2').textContent = targetCOL;
+
+        // Show results
+        document.getElementById('resultsSection').classList.add('active');
+    }
+
+    function formatCurrency(amount) {
+        if (window.SalaryTools && window.SalaryTools.formatCurrency) {
+            return window.SalaryTools.formatCurrency(amount, 0);
+        }
+        return '$' + Math.round(amount).toLocaleString('en-US');
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        populateDropdowns();
+        document.getElementById('calculateBtn').addEventListener('click', calculate);
+
+        // Allow Enter key to trigger calculation
+        document.getElementById('currentSalary').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') calculate();
+        });
+    });
+
+    // Language change handler
+    window.onLanguageChange = function(lang) {
+        // Re-apply badge text if results are visible
+        const badge = document.getElementById('colBadge');
+        if (badge && badge.textContent) {
+            if (badge.classList.contains('higher')) {
+                badge.textContent = window.pageI18n[lang].badge_higher;
+            } else if (badge.classList.contains('lower')) {
+                badge.textContent = window.pageI18n[lang].badge_lower;
+            } else if (badge.classList.contains('same')) {
+                badge.textContent = window.pageI18n[lang].badge_same;
+            }
+        }
+    };
+})();
+</script>
+</body>
+</html>

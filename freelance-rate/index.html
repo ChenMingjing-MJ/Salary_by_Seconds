@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Rate Calculator - Salary to Hourly Rate | SalaryTools</title>
+    <meta name="description" content="Convert your salary to an equivalent freelance hourly rate. Account for self-employment tax, benefits, profit margin, and billable hours to find your ideal freelance rate.">
+    <meta property="og:title" content="Freelance Rate Calculator - Salary to Hourly Rate">
+    <meta property="og:description" content="Calculate the freelance hourly rate you need to match or exceed your current salary, factoring in taxes, benefits, and overhead.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://salarytools.app/freelance-rate/">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Freelance Rate Calculator",
+        "description": "Convert your salary to an equivalent freelance hourly rate accounting for self-employment tax, benefits, and profit margin",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <link rel="stylesheet" href="/css/shared.css">
+    <style>
+        .chart-section {
+            margin-top: 25px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 15px;
+        }
+
+        .chart-section h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .comparison-card .comp-breakdown {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        .form-group .input-hint {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-image"></div>
+    <div class="page-container">
+        <!-- Ad Slot: Leaderboard -->
+        <div class="ad-slot ad-slot-leaderboard"></div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 data-i18n="title">Freelance Rate Calculator</h1>
+            <p data-i18n="subtitle">Convert your salary to the freelance hourly rate you need to maintain your lifestyle</p>
+        </div>
+
+        <!-- Calculator Card -->
+        <div class="calc-card">
+            <div class="calc-grid">
+                <div class="form-group">
+                    <label data-i18n="label_salary">Annual Salary ($)</label>
+                    <input type="number" id="annualSalary" placeholder="75000" min="0" step="1000">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_benefits">Annual Benefits Value ($)</label>
+                    <input type="number" id="benefitsValue" value="15000" min="0" step="500">
+                    <span class="input-hint" data-i18n="hint_benefits">Health insurance, 401k, PTO, etc.</span>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_profit">Desired Profit Margin (%)</label>
+                    <input type="number" id="profitMargin" value="20" min="0" max="100" step="5">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_billable">Billable Hours Per Week</label>
+                    <input type="number" id="billableHours" value="30" min="1" max="80" step="1">
+                </div>
+                <div class="form-group calc-full-width">
+                    <label data-i18n="label_weeks">Weeks Worked Per Year</label>
+                    <input type="number" id="weeksWorked" value="48" min="1" max="52" step="1">
+                </div>
+            </div>
+            <button class="calc-btn" id="calculateBtn" data-i18n="btn_calculate">CALCULATE FREELANCE RATE</button>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <!-- Primary Result -->
+            <div class="result-highlight">
+                <div class="result-label" data-i18n="result_recommended">Recommended Hourly Rate</div>
+                <div class="result-value" id="resultHourlyRate">$0</div>
+            </div>
+
+            <!-- Results Grid -->
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-card-value" id="resultMinRate">$0</div>
+                    <div class="result-card-label" data-i18n="result_minimum">Minimum Viable Rate</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-card-value" id="resultDailyRate">$0</div>
+                    <div class="result-card-label" data-i18n="result_daily">Daily Rate</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-card-value" id="resultWeeklyRate">$0</div>
+                    <div class="result-card-label" data-i18n="result_weekly">Weekly Rate</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-card-value" id="resultMonthlyTarget">$0</div>
+                    <div class="result-card-label" data-i18n="result_monthly">Monthly Target</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-card-value" id="resultAnnualTarget">$0</div>
+                    <div class="result-card-label" data-i18n="result_annual">Annual Target</div>
+                </div>
+            </div>
+
+            <!-- Comparison Cards -->
+            <div class="comparison-cards">
+                <div class="comparison-card">
+                    <h3 data-i18n="comp_employee">As Employee</h3>
+                    <div class="comp-value" id="compEmployeeValue">$0</div>
+                    <div class="comp-detail" data-i18n="comp_employee_detail">Total Compensation</div>
+                    <div class="comp-breakdown" id="compEmployeeBreakdown"></div>
+                </div>
+                <div class="comparison-card">
+                    <h3 data-i18n="comp_freelancer">As Freelancer</h3>
+                    <div class="comp-value" id="compFreelancerValue">$0</div>
+                    <div class="comp-detail" data-i18n="comp_freelancer_detail">Needed Gross to Match</div>
+                    <div class="comp-breakdown" id="compFreelancerBreakdown"></div>
+                </div>
+            </div>
+
+            <!-- Bar Chart -->
+            <div class="chart-section">
+                <h3 data-i18n="chart_title">Employee vs Freelance Comparison</h3>
+                <div class="bar-chart">
+                    <div class="bar-row">
+                        <div class="bar-label" data-i18n="chart_employee">Employee</div>
+                        <div class="bar-track">
+                            <div class="bar-fill gold" id="barEmployee" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="bar-row">
+                        <div class="bar-label" data-i18n="chart_freelance">Freelance</div>
+                        <div class="bar-track">
+                            <div class="bar-fill green" id="barFreelance" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Slot: Banner -->
+        <div class="ad-slot ad-slot-banner"></div>
+
+        <!-- SEO Content -->
+        <div class="seo-content">
+            <h2 data-i18n="seo_title">How to Calculate Your Freelance Rate</h2>
+            <p data-i18n="seo_p1">Transitioning from a salaried position to freelancing requires careful financial planning. Many new freelancers make the mistake of simply dividing their annual salary by 2,080 hours (40 hours x 52 weeks) to arrive at an hourly rate. This approach vastly underestimates the true cost of freelancing, leaving you earning far less than you did as an employee.</p>
+            <p data-i18n="seo_p2">As a freelancer, you must cover expenses that your employer previously handled: health insurance, retirement contributions, paid time off, self-employment tax (15.3% in the US for Social Security and Medicare), equipment, software, accounting fees, and more. These hidden costs can easily add 30-50% on top of your base salary needs.</p>
+            <p data-i18n="seo_p3">Additionally, not all of your working hours are billable. Administrative tasks, marketing, client communication, invoicing, and professional development typically consume 25-40% of your time. Our calculator factors in all these variables to give you a realistic freelance rate that ensures you maintain -- or exceed -- your previous standard of living.</p>
+        </div>
+
+        <!-- More Tools -->
+        <div class="more-tools">
+            <h2 data-i18n="more_tools">More Salary Tools</h2>
+            <div class="tools-grid">
+                <a href="/" class="tool-card">
+                    <h3 data-i18n="tool_counter_title">Salary By Second</h3>
+                    <p data-i18n="tool_counter_desc">Watch your salary tick up in real-time with our live earnings counter.</p>
+                </a>
+                <a href="/take-home-pay/" class="tool-card">
+                    <h3 data-i18n="tool_takehome_title">Take-Home Pay Calculator</h3>
+                    <p data-i18n="tool_takehome_desc">Calculate your after-tax salary with country-specific tax brackets.</p>
+                </a>
+                <a href="/overtime/" class="tool-card">
+                    <h3 data-i18n="tool_overtime_title">Overtime Calculator</h3>
+                    <p data-i18n="tool_overtime_desc">Calculate overtime pay with 1.5x and 2x multipliers.</p>
+                </a>
+                <a href="/salary-comparison/" class="tool-card">
+                    <h3 data-i18n="tool_comparison_title">Salary Comparison Tool</h3>
+                    <p data-i18n="tool_comparison_desc">Compare your salary across 30+ global cities adjusted for cost of living.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ====== I18N ======
+        window.pageI18n = {
+            en: {
+                title: "Freelance Rate Calculator",
+                subtitle: "Convert your salary to the freelance hourly rate you need to maintain your lifestyle",
+                label_salary: "Annual Salary ($)",
+                label_benefits: "Annual Benefits Value ($)",
+                hint_benefits: "Health insurance, 401k, PTO, etc.",
+                label_profit: "Desired Profit Margin (%)",
+                label_billable: "Billable Hours Per Week",
+                label_weeks: "Weeks Worked Per Year",
+                btn_calculate: "CALCULATE FREELANCE RATE",
+                result_recommended: "Recommended Hourly Rate",
+                result_minimum: "Minimum Viable Rate",
+                result_daily: "Daily Rate",
+                result_weekly: "Weekly Rate",
+                result_monthly: "Monthly Target",
+                result_annual: "Annual Target",
+                comp_employee: "As Employee",
+                comp_employee_detail: "Total Compensation",
+                comp_freelancer: "As Freelancer",
+                comp_freelancer_detail: "Needed Gross to Match",
+                chart_title: "Employee vs Freelance Comparison",
+                chart_employee: "Employee",
+                chart_freelance: "Freelance",
+                seo_title: "How to Calculate Your Freelance Rate",
+                seo_p1: "Transitioning from a salaried position to freelancing requires careful financial planning. Many new freelancers make the mistake of simply dividing their annual salary by 2,080 hours (40 hours x 52 weeks) to arrive at an hourly rate. This approach vastly underestimates the true cost of freelancing, leaving you earning far less than you did as an employee.",
+                seo_p2: "As a freelancer, you must cover expenses that your employer previously handled: health insurance, retirement contributions, paid time off, self-employment tax (15.3% in the US for Social Security and Medicare), equipment, software, accounting fees, and more. These hidden costs can easily add 30-50% on top of your base salary needs.",
+                seo_p3: "Additionally, not all of your working hours are billable. Administrative tasks, marketing, client communication, invoicing, and professional development typically consume 25-40% of your time. Our calculator factors in all these variables to give you a realistic freelance rate that ensures you maintain -- or exceed -- your previous standard of living.",
+                more_tools: "More Salary Tools",
+                tool_counter_title: "Salary By Second",
+                tool_counter_desc: "Watch your salary tick up in real-time with our live earnings counter.",
+                tool_takehome_title: "Take-Home Pay Calculator",
+                tool_takehome_desc: "Calculate your after-tax salary with country-specific tax brackets.",
+                tool_overtime_title: "Overtime Calculator",
+                tool_overtime_desc: "Calculate overtime pay with 1.5x and 2x multipliers.",
+                tool_comparison_title: "Salary Comparison Tool",
+                tool_comparison_desc: "Compare your salary across 30+ global cities adjusted for cost of living."
+            },
+            zh: {
+                title: "自由职业费率计算器",
+                subtitle: "将你的工资转换为维持生活所需的自由职业时薪",
+                label_salary: "年薪 ($)",
+                label_benefits: "年度福利价值 ($)",
+                hint_benefits: "健康保险、401k、带薪休假等",
+                label_profit: "期望利润率 (%)",
+                label_billable: "每周计费小时数",
+                label_weeks: "每年工作周数",
+                btn_calculate: "计算自由职业费率",
+                result_recommended: "推荐时薪",
+                result_minimum: "最低可行费率",
+                result_daily: "日费率",
+                result_weekly: "周费率",
+                result_monthly: "月度目标",
+                result_annual: "年度目标",
+                comp_employee: "作为雇员",
+                comp_employee_detail: "总薪酬",
+                comp_freelancer: "作为自由职业者",
+                comp_freelancer_detail: "需要的总收入以匹配",
+                chart_title: "雇员 vs 自由职业者对比",
+                chart_employee: "雇员",
+                chart_freelance: "自由职业",
+                seo_title: "如何计算你的自由职业费率",
+                seo_p1: "从固定薪资职位转向自由职业需要谨慎的财务规划。许多新自由职业者犯了一个错误，简单地将年薪除以2080小时（40小时x52周）来得出时薪。这种方法大大低估了自由职业的真实成本，让你的收入远低于作为雇员时的水平。",
+                seo_p2: "作为自由职业者，你必须承担雇主之前为你支付的费用：健康保险、退休金、带薪休假、自雇税（美国为15.3%的社会保障和医疗保险）、设备、软件、会计费等。这些隐性成本很容易在你的基本薪资需求之上增加30-50%。",
+                seo_p3: "此外，你的工作时间并非全部可以计费。行政任务、营销、客户沟通、开票和专业发展通常会占用25-40%的时间。我们的计算器考虑了所有这些变量，为你提供一个现实的自由职业费率，确保你保持或超越之前的生活水平。",
+                more_tools: "更多薪资工具",
+                tool_counter_title: "实时薪资计数器",
+                tool_counter_desc: "用我们的实时收入计数器观看你的薪资逐秒增长。",
+                tool_takehome_title: "税后工资计算器",
+                tool_takehome_desc: "根据各国税率计算你的税后工资。",
+                tool_overtime_title: "加班工资计算器",
+                tool_overtime_desc: "使用1.5倍和2倍加班倍率计算加班费。",
+                tool_comparison_title: "薪资对比工具",
+                tool_comparison_desc: "根据生活成本在全球30多个城市间比较你的薪资。"
+            },
+            ja: {
+                title: "フリーランス単価計算機",
+                subtitle: "給与を生活水準を維持するためのフリーランス時給に変換",
+                label_salary: "年収 ($)",
+                label_benefits: "年間福利厚生額 ($)",
+                hint_benefits: "健康保険、401k、有給休暇など",
+                label_profit: "希望利益率 (%)",
+                label_billable: "週あたり稼働時間",
+                label_weeks: "年間稼働週数",
+                btn_calculate: "フリーランス単価を計算",
+                result_recommended: "推奨時給",
+                result_minimum: "最低限の時給",
+                result_daily: "日給",
+                result_weekly: "週給",
+                result_monthly: "月間目標",
+                result_annual: "年間目標",
+                comp_employee: "会社員として",
+                comp_employee_detail: "総報酬",
+                comp_freelancer: "フリーランスとして",
+                comp_freelancer_detail: "同等に必要な総収入",
+                chart_title: "会社員 vs フリーランス比較",
+                chart_employee: "会社員",
+                chart_freelance: "フリーランス",
+                seo_title: "フリーランス単価の計算方法",
+                seo_p1: "給与所得者からフリーランスへの転身には、慎重な財務計画が必要です。多くの新しいフリーランサーは、年収を2,080時間（週40時間×52週）で割るだけで時給を算出するという間違いを犯します。この方法ではフリーランスの真のコストを大幅に過小評価し、会社員時代よりはるかに少ない収入になってしまいます。",
+                seo_p2: "フリーランスとして、以前は雇用主が負担していた費用を自分でカバーしなければなりません：健康保険、退職金拠出、有給休暇、自営業税（米国では社会保障とメディケアで15.3%）、機器、ソフトウェア、会計費用など。これらの隠れたコストは、基本給の30〜50%を簡単に上乗せします。",
+                seo_p3: "さらに、すべての労働時間が請求可能なわけではありません。管理業務、マーケティング、クライアントとのコミュニケーション、請求書発行、専門能力の開発には通常25〜40%の時間がかかります。この計算機はこれらすべての変数を考慮し、以前の生活水準を維持または上回るための現実的なフリーランス単価を提供します。",
+                more_tools: "その他の給与ツール",
+                tool_counter_title: "秒給カウンター",
+                tool_counter_desc: "リアルタイム収入カウンターで給与が増えるのを見ましょう。",
+                tool_takehome_title: "手取り計算機",
+                tool_takehome_desc: "各国の税率で税引後の給与を計算します。",
+                tool_overtime_title: "残業代計算機",
+                tool_overtime_desc: "1.5倍・2倍の残業代を計算します。",
+                tool_comparison_title: "給与比較ツール",
+                tool_comparison_desc: "生活費を考慮して世界30以上の都市で給与を比較。"
+            },
+            ko: {
+                title: "프리랜서 단가 계산기",
+                subtitle: "급여를 생활 수준을 유지하는 데 필요한 프리랜서 시급으로 변환",
+                label_salary: "연봉 ($)",
+                label_benefits: "연간 복리후생 가치 ($)",
+                hint_benefits: "건강보험, 401k, 유급휴가 등",
+                label_profit: "희망 이익률 (%)",
+                label_billable: "주당 청구 가능 시간",
+                label_weeks: "연간 근무 주수",
+                btn_calculate: "프리랜서 단가 계산",
+                result_recommended: "추천 시급",
+                result_minimum: "최소 가능 단가",
+                result_daily: "일일 단가",
+                result_weekly: "주간 단가",
+                result_monthly: "월간 목표",
+                result_annual: "연간 목표",
+                comp_employee: "직장인으로서",
+                comp_employee_detail: "총 보상",
+                comp_freelancer: "프리랜서로서",
+                comp_freelancer_detail: "동등하게 필요한 총 수입",
+                chart_title: "직장인 vs 프리랜서 비교",
+                chart_employee: "직장인",
+                chart_freelance: "프리랜서",
+                seo_title: "프리랜서 단가 계산 방법",
+                seo_p1: "급여 직장에서 프리랜서로 전환하려면 신중한 재무 계획이 필요합니다. 많은 신규 프리랜서들이 연봉을 2,080시간(주 40시간 x 52주)으로 나누어 시급을 산출하는 실수를 합니다. 이 방법은 프리랜서의 실제 비용을 크게 과소평가하여, 직장인일 때보다 훨씬 적은 수입을 얻게 됩니다.",
+                seo_p2: "프리랜서로서 이전에 고용주가 부담하던 비용을 직접 충당해야 합니다: 건강보험, 퇴직금, 유급휴가, 자영업세(미국에서 사회보장 및 메디케어 15.3%), 장비, 소프트웨어, 회계비 등. 이러한 숨겨진 비용은 기본 급여 필요액에 30-50%를 쉽게 추가합니다.",
+                seo_p3: "또한 모든 근무 시간이 청구 가능한 것은 아닙니다. 관리 업무, 마케팅, 고객 소통, 청구서 발행, 전문성 개발에 보통 25-40%의 시간이 소요됩니다. 우리 계산기는 이 모든 변수를 고려하여 이전 생활 수준을 유지하거나 초과할 수 있는 현실적인 프리랜서 단가를 제공합니다.",
+                more_tools: "더 많은 급여 도구",
+                tool_counter_title: "실시간 급여 카운터",
+                tool_counter_desc: "실시간 수입 카운터로 급여가 증가하는 것을 확인하세요.",
+                tool_takehome_title: "실수령액 계산기",
+                tool_takehome_desc: "각국 세율로 세후 급여를 계산합니다.",
+                tool_overtime_title: "야근수당 계산기",
+                tool_overtime_desc: "1.5배, 2배 야근수당을 계산합니다.",
+                tool_comparison_title: "급여 비교 도구",
+                tool_comparison_desc: "생활비를 기준으로 전 세계 30개 이상 도시에서 급여를 비교합니다."
+            }
+        };
+
+        // ====== CALCULATION ======
+        const SE_TAX_RATE = 0.153; // 15.3% self-employment tax
+
+        function calculate() {
+            const salary = parseFloat(document.getElementById('annualSalary').value) || 0;
+            const benefits = parseFloat(document.getElementById('benefitsValue').value) || 0;
+            const profitMargin = parseFloat(document.getElementById('profitMargin').value) || 0;
+            const billableHours = parseFloat(document.getElementById('billableHours').value) || 30;
+            const weeksWorked = parseFloat(document.getElementById('weeksWorked').value) || 48;
+
+            if (salary <= 0) {
+                alert('Please enter your annual salary.');
+                return;
+            }
+
+            // Core calculation
+            const totalComp = salary + benefits;
+            const annualNeeded = totalComp / (1 - SE_TAX_RATE);
+            const withProfit = annualNeeded * (1 + profitMargin / 100);
+            const totalBillableHours = billableHours * weeksWorked;
+            const hourlyRate = withProfit / totalBillableHours;
+            const minimumRate = totalComp / totalBillableHours;
+
+            // Derived rates
+            const dailyRate = hourlyRate * billableHours / 5; // Assuming 5-day work week
+            const weeklyRate = hourlyRate * billableHours;
+            const monthlyTarget = withProfit / 12;
+            const annualTarget = withProfit;
+
+            // Format and display
+            const fmt = window.SalaryTools ? window.SalaryTools.formatCurrency : (v, d) => '$' + v.toFixed(d || 2);
+
+            document.getElementById('resultHourlyRate').textContent = fmt(hourlyRate, 2);
+            document.getElementById('resultMinRate').textContent = fmt(minimumRate, 2);
+            document.getElementById('resultDailyRate').textContent = fmt(dailyRate, 2);
+            document.getElementById('resultWeeklyRate').textContent = fmt(weeklyRate, 2);
+            document.getElementById('resultMonthlyTarget').textContent = fmt(monthlyTarget, 0);
+            document.getElementById('resultAnnualTarget').textContent = fmt(annualTarget, 0);
+
+            // Comparison cards
+            document.getElementById('compEmployeeValue').textContent = fmt(totalComp, 0);
+            document.getElementById('compEmployeeBreakdown').textContent =
+                fmt(salary, 0) + ' salary + ' + fmt(benefits, 0) + ' benefits';
+
+            document.getElementById('compFreelancerValue').textContent = fmt(withProfit, 0);
+            document.getElementById('compFreelancerBreakdown').textContent =
+                'Covers SE tax (' + (SE_TAX_RATE * 100).toFixed(1) + '%) + ' + profitMargin + '% profit';
+
+            // Bar chart
+            const maxVal = Math.max(totalComp, withProfit);
+            const employeePercent = (totalComp / maxVal) * 100;
+            const freelancePercent = (withProfit / maxVal) * 100;
+
+            document.getElementById('barEmployee').style.width = employeePercent + '%';
+            document.getElementById('barEmployee').textContent = fmt(totalComp, 0);
+            document.getElementById('barFreelance').style.width = freelancePercent + '%';
+            document.getElementById('barFreelance').textContent = fmt(withProfit, 0);
+
+            // Show results
+            document.getElementById('resultsSection').classList.add('active');
+        }
+
+        document.getElementById('calculateBtn').addEventListener('click', calculate);
+
+        // Allow Enter key to trigger calculation
+        document.querySelectorAll('.calc-card input').forEach(input => {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') calculate();
+            });
+        });
+    </script>
+    <script src="/js/shared.js"></script>
+</body>
+</html>
