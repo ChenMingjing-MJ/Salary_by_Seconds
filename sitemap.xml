@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://cashclock.vercel.app/</loc>
+        <loc>https://caseclockio.vercel.app/</loc>
         <lastmod>2025-05-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://cashclock.vercel.app/take-home-pay/</loc>
+        <loc>https://caseclockio.vercel.app/take-home-pay/</loc>
         <lastmod>2025-05-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://cashclock.vercel.app/freelance-rate/</loc>
+        <loc>https://caseclockio.vercel.app/freelance-rate/</loc>
         <lastmod>2025-05-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://cashclock.vercel.app/overtime/</loc>
+        <loc>https://caseclockio.vercel.app/overtime/</loc>
         <lastmod>2025-05-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://cashclock.vercel.app/salary-comparison/</loc>
+        <loc>https://caseclockio.vercel.app/salary-comparison/</loc>
         <lastmod>2025-05-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>

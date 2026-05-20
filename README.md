@@ -139,4 +139,4 @@ Pure static HTML — no build step required.
 
 ## Live Demo
 
-[https://cashclock.vercel.app/](https://cashclock.vercel.app/)
+[https://caseclockio.vercel.app/](https://caseclockio.vercel.app/)
