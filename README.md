@@ -139,4 +139,4 @@ Pure static HTML — no build step required.
 
 ## Live Demo
 
-[https://chenmingjing-mj.github.io/Salary_by_Seconds/](https://chenmingjing-mj.github.io/Salary_by_Seconds/)
+[https://salary-by-seconds.vercel.app/](https://salary-by-seconds.vercel.app/)
