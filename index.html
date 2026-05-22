@@ -543,13 +543,15 @@
         <section class="hero">
             <div>
                 <h1>
-                    Watch your <span class="hl hl-pink">salary</span>
-                    tick up <span class="hl hl-blue">every second</span>.
+                    <span data-i18n="hero_watch">Watch your</span>
+                    <span class="hl hl-pink" data-i18n="hero_salary">salary</span>
+                    <span data-i18n="hero_tick">tick up</span>
+                    <span class="hl hl-blue" data-i18n="hero_every">every second</span><span data-i18n="hero_dot">.</span>
                 </h1>
                 <p class="sub" data-i18n="subtitle">Watch your hard work transform into real-time earnings — calculated to the cent, refreshed every moment of your workday.</p>
                 <div class="hero-ctas">
-                    <a href="#calculator" class="btn-primary">Start counting →</a>
-                    <a href="#features" class="btn-outline">How it works</a>
+                    <a href="#calculator" class="btn-primary" data-i18n="cta_start">Start counting →</a>
+                    <a href="#features" class="btn-outline" data-i18n="cta_how">How it works</a>
                 </div>
             </div>
             <div class="hero-art" aria-hidden="true">
@@ -601,29 +603,30 @@
         <section id="features" class="features">
             <div class="feature-card">
                 <div class="feature-icon">⏱</div>
-                <h3>Real-time ticker</h3>
-                <p>Your earnings tick up every 50ms. See exactly what your time is worth, as it happens.</p>
+                <h3 data-i18n="feat1_title">Real-time ticker</h3>
+                <p data-i18n="feat1_desc">Your earnings tick up every 50ms. See exactly what your time is worth, as it happens.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📅</div>
-                <h3>Smart calendar</h3>
-                <p>Toggle full days, half days, holidays. Drag-select multiple working days at once.</p>
+                <h3 data-i18n="feat2_title">Smart calendar</h3>
+                <p data-i18n="feat2_desc">Toggle full days, half days, holidays. Drag-select multiple working days at once.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🌍</div>
-                <h3>Four languages</h3>
-                <p>English, 中文, 日本語, 한국어. Built for global workers chasing the clock.</p>
+                <h3 data-i18n="feat3_title">Four languages</h3>
+                <p data-i18n="feat3_desc">English, 中文, 日本語, 한국어. Built for global workers chasing the clock.</p>
             </div>
         </section>
 
         <!-- CALCULATOR -->
         <h2 class="section-title" id="calculator">
-            Set up your <span class="hl hl-yellow">paycheck</span>
+            <span data-i18n="setup_set">Set up your</span>
+            <span class="hl hl-yellow" data-i18n="setup_paycheck">paycheck</span>
         </h2>
-        <p class="section-lede">Tell us your salary and working days. We'll do the math, second by second.</p>
+        <p class="section-lede" data-i18n="setup_lede">Tell us your salary and working days. We'll do the math, second by second.</p>
 
         <div class="input-section" id="inputSection">
-            <span class="card-eyebrow">Step 1 · Your numbers</span>
+            <span class="card-eyebrow" data-i18n="step1_eyebrow">Step 1 · Your numbers</span>
             <div class="input-grid">
                 <div class="input-group">
                     <label data-i18n="monthly_salary">Monthly Salary ($)</label>
@@ -721,6 +724,25 @@
             en: {
                 title: "SALARY BY SECOND",
                 subtitle: "Watch your hard work transform into real-time earnings — calculated to the cent, refreshed every moment of your workday.",
+                hero_watch: "Watch your",
+                hero_salary: "salary",
+                hero_tick: "tick up",
+                hero_every: "every second",
+                hero_dot: ".",
+                cta_start: "Start counting →",
+                cta_how: "How it works",
+                feat1_title: "Real-time ticker",
+                feat1_desc: "Your earnings tick up every 50ms. See exactly what your time is worth, as it happens.",
+                feat2_title: "Smart calendar",
+                feat2_desc: "Toggle full days, half days, holidays. Drag-select multiple working days at once.",
+                feat3_title: "Four languages",
+                feat3_desc: "English, 中文, 日本語, 한국어. Built for global workers chasing the clock.",
+                setup_set: "Set up your",
+                setup_paycheck: "paycheck",
+                setup_lede: "Tell us your salary and working days. We'll do the math, second by second.",
+                step1_eyebrow: "Step 1 · Your numbers",
+                more_more: "More",
+                more_salary_tools: "salary tools",
                 monthly_salary: "Monthly Salary ($)",
                 monthly_bonus: "Monthly Bonus ($)",
                 todays_date: "Today's Date",
@@ -767,7 +789,26 @@
             },
             zh: {
                 title: "每秒薪资",
-                subtitle: "看着你的努力实时转化为收入",
+                subtitle: "看着你的努力实时转化为收入 —— 精确到分，工作日的每一刻都在刷新。",
+                hero_watch: "看着你的",
+                hero_salary: "薪水",
+                hero_tick: "每",
+                hero_every: "一秒",
+                hero_dot: "都在跳动。",
+                cta_start: "开始计算 →",
+                cta_how: "如何使用",
+                feat1_title: "实时计数",
+                feat1_desc: "你的收入每 50 毫秒更新一次，让你清楚地看到时间的真实价值。",
+                feat2_title: "智能日历",
+                feat2_desc: "切换全天、半天、节假日，支持拖动选择多个工作日。",
+                feat3_title: "四种语言",
+                feat3_desc: "English、中文、日本語、한국어。专为追赶时钟的全球打工人打造。",
+                setup_set: "设置你的",
+                setup_paycheck: "工资",
+                setup_lede: "告诉我们你的薪资和工作日，我们来为你逐秒计算。",
+                step1_eyebrow: "第一步 · 你的数字",
+                more_more: "更多",
+                more_salary_tools: "薪资工具",
                 monthly_salary: "月薪 ($)",
                 monthly_bonus: "月奖金 ($)",
                 todays_date: "今天日期",
@@ -814,7 +855,26 @@
             },
             ja: {
                 title: "秒給",
-                subtitle: "あなたの努力がリアルタイムで収入になる",
+                subtitle: "あなたの努力がリアルタイムで収入に — 1セント単位で計算し、勤務時間中ずっと更新します。",
+                hero_watch: "あなたの",
+                hero_salary: "給料",
+                hero_tick: "が刻む",
+                hero_every: "一秒一秒",
+                hero_dot: "。",
+                cta_start: "計算を始める →",
+                cta_how: "使い方",
+                feat1_title: "リアルタイム加算",
+                feat1_desc: "収入は 50ms ごとに更新。あなたの時間の価値がリアルに見えます。",
+                feat2_title: "スマートカレンダー",
+                feat2_desc: "全日・半日・祝日を切り替え。複数の勤務日もドラッグでまとめて選択。",
+                feat3_title: "4言語対応",
+                feat3_desc: "English、中文、日本語、한국어。時間を追う世界中の働く人へ。",
+                setup_set: "あなたの",
+                setup_paycheck: "給与",
+                setup_lede: "給与と勤務日を教えてください。秒単位で計算します。",
+                step1_eyebrow: "ステップ 1 · 数字を入力",
+                more_more: "その他の",
+                more_salary_tools: "給与ツール",
                 monthly_salary: "月給 ($)",
                 monthly_bonus: "月ボーナス ($)",
                 todays_date: "今日の日付",
@@ -861,7 +921,26 @@
             },
             ko: {
                 title: "초봉계산기",
-                subtitle: "당신의 노력이 실시간으로 수입이 되는 것을 확인하세요",
+                subtitle: "당신의 노력이 실시간으로 수입이 되는 것을 확인하세요 — 센트 단위로 계산되고, 근무시간 내내 갱신됩니다.",
+                hero_watch: "당신의",
+                hero_salary: "월급이",
+                hero_tick: "초마다",
+                hero_every: "올라가는",
+                hero_dot: " 모습을 보세요.",
+                cta_start: "계산 시작 →",
+                cta_how: "사용 방법",
+                feat1_title: "실시간 카운터",
+                feat1_desc: "수입이 50ms마다 갱신됩니다. 당신의 시간이 얼마나 값진지 즉시 확인하세요.",
+                feat2_title: "스마트 캘린더",
+                feat2_desc: "전일, 반일, 공휴일을 전환하고, 여러 근무일을 드래그로 한 번에 선택하세요.",
+                feat3_title: "4개 언어 지원",
+                feat3_desc: "English, 中文, 日本語, 한국어. 시간을 좇는 전 세계 직장인을 위해.",
+                setup_set: "당신의",
+                setup_paycheck: "급여",
+                setup_lede: "월급과 근무일을 알려주세요. 초 단위로 계산해 드립니다.",
+                step1_eyebrow: "1단계 · 숫자 입력",
+                more_more: "더 많은",
+                more_salary_tools: "급여 도구",
                 monthly_salary: "월급 ($)",
                 monthly_bonus: "월 보너스 ($)",
                 todays_date: "오늘 날짜",
@@ -1273,8 +1352,9 @@
     </script>
 
     <div class="more-tools" style="max-width: 1440px; margin: 70px auto 0; padding: 0 56px; position: relative; z-index: 10;">
-        <h2 data-i18n="more_tools">
-            More <span class="hl hl-blue">salary tools</span>
+        <h2>
+            <span data-i18n="more_more">More</span>
+            <span class="hl hl-blue" data-i18n="more_salary_tools">salary tools</span>
         </h2>
         <div class="tools-grid">
             <a href="/take-home-pay/" class="tool-card">
