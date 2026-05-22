@@ -23,359 +23,607 @@
     </script>
     <link rel="stylesheet" href="/css/shared.css">
     <style>
-        body {
-            background: linear-gradient(180deg, #0a0a0a 0%, #1a1020 30%, #2a1a2a 60%, #1a1020 100%);
-        }
-
-        .bg-image {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format') center center / cover no-repeat;
-            opacity: 0.35;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .bg-particles {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0;
-        }
-
-        .particle {
-            position: absolute; width: 3px; height: 3px;
-            background: var(--gold); border-radius: 50%;
-            animation: float 6s infinite ease-in-out; opacity: 0.2;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
-            50% { transform: translateY(-20px) translateX(10px); opacity: 0.5; }
-        }
-
+        /* ===== Hero ===== */
         .container {
-            max-width: 900px; margin: 0 auto; padding: 40px 20px;
+            max-width: 1100px; margin: 0 auto; padding: 32px 24px 0;
             position: relative; z-index: 10;
         }
 
-        header { text-align: center; margin-bottom: 50px; }
-
-        header h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem; font-weight: 700;
-            background: linear-gradient(135deg, #e8c547 0%, #d4a017 40%, #b8860b 70%, #e8c547 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; margin-bottom: 10px;
-            animation: shimmer 4s infinite; background-size: 300% auto;
+        .hero {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 40px;
+            align-items: center;
+            margin: 28px 0 50px;
         }
 
-        @keyframes shimmer {
-            0% { background-position: 0% center; }
-            100% { background-position: 300% center; }
+        .hero h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.025em;
+            color: var(--ink);
+            margin: 0 0 18px;
         }
 
-        header p { font-size: 1.05rem; color: #fff; font-weight: 400; letter-spacing: 0.3px; }
+        .hero .sub {
+            font-size: 1.05rem;
+            color: var(--muted);
+            font-weight: 500;
+            max-width: 520px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
 
+        .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        .btn-primary, .btn-outline {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 13px 22px;
+            border-radius: 999px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            border: 2px solid var(--ink);
+            transition: all 0.15s ease;
+        }
+        .btn-primary {
+            background: var(--ink); color: var(--paper);
+            box-shadow: 4px 4px 0 0 var(--ink);
+        }
+        .btn-primary:hover {
+            background: var(--blue); transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 0 var(--ink);
+        }
+        .btn-outline {
+            background: var(--paper); color: var(--ink);
+        }
+        .btn-outline:hover {
+            background: var(--yellow); transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 0 var(--ink);
+        }
+
+        /* Hero illustration */
+        .hero-art {
+            position: relative;
+            justify-self: end;
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+        .hero-art svg { width: 100%; height: auto; display: block; }
+        .hero-art .arrow-spin { transform-origin: 250px 250px; animation: arrowSpin 12s linear infinite; }
+        @keyframes arrowSpin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* ===== Section headings ===== */
+        .section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+            font-weight: 800;
+            text-align: center;
+            color: var(--ink);
+            margin: 0 0 12px;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+        .section-lede {
+            font-size: 1rem; color: var(--muted);
+            text-align: center; max-width: 600px;
+            margin: 0 auto 32px; line-height: 1.6;
+        }
+
+        /* ===== Calculator card ===== */
         .input-section {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--gold-subtle);
-            border-radius: 20px; padding: 40px; margin-bottom: 40px;
-            backdrop-filter: blur(10px);
+            background: var(--paper);
+            border: 2.5px solid var(--ink);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 8px 8px 0 0 var(--ink);
+            margin-bottom: 50px;
         }
 
-        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .card-eyebrow {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--blue);
+            color: var(--paper);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 2px solid var(--ink);
+            margin-bottom: 18px;
+        }
+
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 
         .input-group { display: flex; flex-direction: column; }
 
         .input-group label {
-            font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
-            color: var(--gold); text-transform: uppercase;
-            letter-spacing: 1.5px; margin-bottom: 10px; font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.78rem;
+            color: var(--ink);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .input-group input, .input-group select {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(184, 134, 11, 0.3);
-            border-radius: 12px; padding: 15px 20px; font-size: 1.1rem;
-            color: #fff; font-family: 'Space Grotesk', sans-serif;
-            transition: all 0.3s ease; outline: none;
+            background: var(--paper);
+            border: 2px solid var(--ink);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-size: 1rem;
+            color: var(--ink);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            transition: all 0.15s ease;
+            outline: none;
         }
-
         .input-group input:focus, .input-group select:focus {
-            border-color: var(--gold); box-shadow: 0 0 20px var(--gold-glow);
+            border-color: var(--blue);
+            box-shadow: 4px 4px 0 0 var(--blue);
+            transform: translate(-2px, -2px);
         }
-
-        .input-group input::placeholder { color: #bbb; }
+        .input-group input::placeholder { color: #b9b9b9; font-weight: 500; }
 
         .input-group select {
             cursor: pointer; appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4a017' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 15px center;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%230B0B0F' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 38px;
         }
-
-        .input-group select option { background: #1a1a2e; color: #fff; }
 
         .time-settings {
             grid-column: 1 / -1; display: grid;
-            grid-template-columns: 1fr 1fr 1fr; gap: 20px;
-            margin-top: 5px; padding-top: 20px;
-            border-top: 1px solid rgba(184, 134, 11, 0.1);
+            grid-template-columns: 1fr 1fr 1fr; gap: 18px;
+            margin-top: 6px; padding-top: 22px;
+            border-top: 2px dashed var(--ink);
         }
-
-        .time-settings .input-group label { font-size: 0.72rem; }
 
         .calendar-section { grid-column: 1 / -1; }
 
         .calendar-header {
             display: flex; align-items: center;
-            justify-content: space-between; margin-bottom: 15px;
+            justify-content: space-between; margin-bottom: 14px;
         }
-
         .calendar-header button {
-            background: rgba(184, 134, 11, 0.1);
-            border: 1px solid rgba(184, 134, 11, 0.3);
-            color: var(--gold); width: 36px; height: 36px;
-            border-radius: 50%; cursor: pointer; font-size: 1.2rem;
-            transition: all 0.3s ease;
+            background: var(--paper);
+            border: 2px solid var(--ink);
+            color: var(--ink); width: 38px; height: 38px;
+            border-radius: 50%; cursor: pointer; font-size: 1.1rem;
+            font-weight: 700;
+            transition: all 0.15s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-
-        .calendar-header button:hover { background: rgba(184, 134, 11, 0.3); }
-
+        .calendar-header button:hover { background: var(--yellow); }
         .calendar-header span {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem; color: var(--gold); font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.05rem; color: var(--ink); font-weight: 800;
         }
 
         .calendar-grid {
             display: grid; grid-template-columns: repeat(7, 1fr);
-            gap: 5px; user-select: none; -webkit-user-select: none;
+            gap: 6px; user-select: none; -webkit-user-select: none;
         }
-
         .calendar-day-header {
-            text-align: center; font-family: 'DM Sans', sans-serif;
-            font-size: 0.7rem; color: #ddd; padding: 8px 0;
+            text-align: center; font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.7rem; color: var(--muted); padding: 8px 0;
             text-transform: uppercase; letter-spacing: 1px;
-        }
-
-        .calendar-day {
-            text-align: center; padding: 10px 5px; border-radius: 8px;
-            cursor: pointer; font-size: 0.85rem;
-            font-family: 'Space Grotesk', sans-serif;
-            transition: all 0.2s ease; color: #ccc;
-        }
-
-        .calendar-day:hover { background: var(--gold-subtle); }
-
-        .calendar-day.selected {
-            background: linear-gradient(135deg, var(--gold), var(--gold-deep));
-            color: #000; font-weight: 700;
-        }
-
-        .calendar-day.half-day {
-            background: linear-gradient(135deg, rgba(212, 160, 23, 0.5), rgba(184, 134, 11, 0.4));
-            color: #fff; font-weight: 600;
-            position: relative;
-        }
-
-        .calendar-day.half-day::after {
-            content: '½';
-            position: absolute;
-            top: 1px;
-            right: 4px;
-            font-size: 0.55rem;
-            color: var(--gold-light);
             font-weight: 700;
         }
+        .calendar-day {
+            text-align: center; padding: 9px 5px; border-radius: 10px;
+            cursor: pointer; font-size: 0.88rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            transition: all 0.15s ease; color: var(--ink);
+            background: var(--canvas-warm);
+            border: 1.5px solid transparent;
+        }
+        .calendar-day:hover { background: var(--yellow-soft); }
+        .calendar-day.selected {
+            background: var(--blue); color: var(--paper);
+            border-color: var(--ink); font-weight: 800;
+        }
+        .calendar-day.half-day {
+            background: var(--blue-soft); color: var(--ink);
+            border-color: var(--ink); font-weight: 700;
+            position: relative;
+        }
+        .calendar-day.half-day::after {
+            content: '½'; position: absolute;
+            top: 1px; right: 5px; font-size: 0.58rem;
+            color: var(--blue); font-weight: 800;
+        }
+        .calendar-day.other-month { color: #c5c5c5; background: transparent; }
+        .calendar-day.today {
+            box-shadow: inset 0 0 0 2px var(--pink);
+        }
 
-        .calendar-day.other-month { color: #999; }
-        .calendar-day.today { border: 1px solid rgba(184, 134, 11, 0.6); }
-
-        .selected-days-display { margin-top: 15px; font-size: 0.9rem; color: #aaa; }
-        .selected-days-display span {
-            color: var(--gold); font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+        .selected-days-display {
+            margin-top: 16px; font-size: 0.88rem;
+            color: var(--muted); font-weight: 500;
+        }
+        .selected-days-display > span:nth-child(2),
+        .selected-days-display #halfDayCount {
+            color: var(--ink); font-weight: 800;
         }
 
         .start-btn {
-            display: block; width: 100%; margin-top: 30px; padding: 18px;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-deep));
-            border: none; border-radius: 12px; font-size: 1.1rem;
-            font-weight: 700; color: #000; cursor: pointer;
-            font-family: 'DM Sans', sans-serif; text-transform: uppercase;
-            letter-spacing: 3px; transition: all 0.3s ease;
-            box-shadow: 0 5px 30px var(--gold-glow);
+            display: block; width: 100%; margin-top: 28px; padding: 18px;
+            background: var(--ink);
+            border: 2.5px solid var(--ink);
+            border-radius: 999px;
+            font-size: 1rem;
+            font-weight: 800; color: var(--paper); cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.5px;
+            transition: all 0.15s ease;
+            box-shadow: 4px 4px 0 0 var(--ink);
+        }
+        .start-btn:hover {
+            background: var(--blue);
+            transform: translate(-3px, -3px);
+            box-shadow: 7px 7px 0 0 var(--ink);
+        }
+        .start-btn:active { transform: translate(0, 0); box-shadow: 2px 2px 0 0 var(--ink); }
+
+        /* ===== Counter Section ===== */
+        .counter-section { display: none; }
+        .counter-section.active { display: block; animation: fadeUp 0.6s ease; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(212, 160, 23, 0.5); }
-        .start-btn:active { transform: translateY(0); }
-
-        .counter-section { display: none; text-align: center; padding: 60px 20px; }
-        .counter-section.active { display: block; animation: fadeIn 1s ease; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .counter-card {
+            background: var(--paper);
+            border: 2.5px solid var(--ink);
+            border-radius: 26px;
+            padding: 40px 30px;
+            box-shadow: 8px 8px 0 0 var(--ink);
+            text-align: center;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
         }
+        .counter-card::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 180px; height: 180px;
+            background: var(--pink);
+            border-radius: 50%;
+            border: 2.5px solid var(--ink);
+            z-index: 0;
+        }
+        .counter-card::after {
+            content: '';
+            position: absolute;
+            bottom: -50px; left: -40px;
+            width: 130px; height: 130px;
+            background: var(--blue);
+            border-radius: 50%;
+            border: 2.5px solid var(--ink);
+            z-index: 0;
+        }
+        .counter-card > * { position: relative; z-index: 1; }
 
         .motivational-quote {
-            font-family: 'DM Sans', sans-serif; font-size: 1rem;
-            color: #ddd; font-style: italic; margin-bottom: 40px; min-height: 30px;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem;
+            color: var(--muted); font-style: italic;
+            margin-bottom: 26px; min-height: 26px;
+            font-weight: 500;
         }
-
         .today-date-display {
-            font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
-            color: #ddd; margin-bottom: 20px; letter-spacing: 0.5px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.82rem; color: var(--muted);
+            margin-bottom: 18px; font-weight: 600;
         }
-        .today-date-display span { color: var(--gold); font-weight: 600; }
+        .today-date-display span:last-child { color: var(--ink); font-weight: 800; }
 
         .earnings-label {
-            font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
-            text-transform: uppercase; letter-spacing: 3px;
-            color: var(--gold); margin-bottom: 15px; font-weight: 500;
+            display: inline-block;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem;
+            text-transform: uppercase; letter-spacing: 1.5px;
+            background: var(--yellow);
+            color: var(--ink);
+            padding: 6px 14px;
+            border: 2px solid var(--ink);
+            border-radius: 999px;
+            margin-bottom: 18px; font-weight: 700;
         }
 
         .earnings-display {
-            font-family: 'Space Grotesk', sans-serif; font-size: 4.5rem; font-weight: 700;
-            background: linear-gradient(135deg, #e8c547 0%, #fff 30%, #e8c547 60%, #b8860b 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; background-size: 300% auto;
-            animation: shimmer 3s infinite linear; margin-bottom: 10px; line-height: 1.2;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 10px; line-height: 1.05;
+            letter-spacing: -0.03em;
         }
 
         .total-earned-section {
-            margin-top: 30px; padding: 25px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(184, 134, 11, 0.2); border-radius: 15px;
+            margin-top: 28px; padding: 22px;
+            background: var(--canvas-warm);
+            border: 2px solid var(--ink);
+            border-radius: 18px;
         }
-
         .total-earned-label {
-            font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
-            text-transform: uppercase; letter-spacing: 2px; color: #ddd; margin-bottom: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem;
+            text-transform: uppercase; letter-spacing: 1.2px;
+            color: var(--muted); margin-bottom: 6px; font-weight: 700;
         }
-
         .total-earned-value {
-            font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem;
-            font-weight: 700; color: var(--gold-light);
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2.2rem;
+            font-weight: 800; color: var(--ink);
+            letter-spacing: -0.02em;
         }
 
         .per-second-display {
-            font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;
-            color: #ddd; margin-bottom: 40px;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
+            color: var(--muted); margin-bottom: 28px; font-weight: 500;
         }
-        .per-second-display span { color: var(--gold); }
+        .per-second-display span:first-child { color: var(--ink); font-weight: 800; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
-
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 14px; margin-top: 28px;
+        }
         .stat-card {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(184, 134, 11, 0.12);
-            border-radius: 15px; padding: 25px 15px;
+            background: var(--paper);
+            border: 2px solid var(--ink);
+            border-radius: 16px; padding: 22px 14px;
+            box-shadow: 4px 4px 0 0 var(--ink);
         }
+        .stat-card:nth-child(1) { background: var(--pink-soft); }
+        .stat-card:nth-child(2) { background: var(--yellow-soft); }
+        .stat-card:nth-child(3) { background: var(--blue-soft); }
         .stat-card .stat-value {
-            font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem;
-            color: var(--gold-light); margin-bottom: 5px; font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.4rem;
+            color: var(--ink); margin-bottom: 4px; font-weight: 800;
+            letter-spacing: -0.01em;
         }
         .stat-card .stat-label {
-            font-family: 'DM Sans', sans-serif; font-size: 0.72rem;
-            color: #ddd; text-transform: uppercase; letter-spacing: 1px;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.72rem;
+            color: var(--ink); text-transform: uppercase;
+            letter-spacing: 1px; font-weight: 700;
         }
 
         .progress-bar {
-            margin-top: 40px; background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px; height: 6px; overflow: hidden;
+            margin-top: 32px; background: var(--canvas-warm);
+            border: 2px solid var(--ink);
+            border-radius: 999px; height: 14px; overflow: hidden;
         }
         .progress-fill {
-            height: 100%; background: linear-gradient(90deg, var(--gold-deep), var(--gold-light));
-            border-radius: 10px; transition: width 1s linear; width: 0%;
+            height: 100%;
+            background: var(--blue);
+            border-radius: 0;
+            transition: width 1s linear; width: 0%;
         }
         .progress-label {
             display: flex; justify-content: space-between; margin-top: 10px;
-            font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #bbb;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.78rem; color: var(--muted);
+            font-weight: 600;
         }
+        .progress-label span:nth-child(2) { color: var(--ink); font-weight: 800; }
 
         .reset-btn {
-            margin-top: 40px; padding: 12px 30px; background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px;
-            color: #ccc; cursor: pointer; font-family: 'DM Sans', sans-serif;
-            font-size: 0.85rem; transition: all 0.3s ease;
+            margin-top: 32px; padding: 12px 26px;
+            background: var(--paper);
+            border: 2px solid var(--ink);
+            border-radius: 999px;
+            color: var(--ink); cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.88rem; font-weight: 700;
+            transition: all 0.15s ease;
         }
-        .reset-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .reset-btn:hover {
+            background: var(--yellow);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 0 var(--ink);
+        }
 
-        /* Falling dollar signs */
+        /* Falling dollar signs (kept) */
         .falling-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1000; overflow: hidden;
         }
-
         .falling-dollar {
             position: absolute; top: -80px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            color: var(--gold-light);
-            text-shadow: 0 0 10px var(--gold-glow), 0 2px 4px rgba(0,0,0,0.3);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            color: var(--ink);
             animation: dollarFall linear forwards;
-            opacity: 0.9;
+            opacity: 0.85;
         }
-
-        .falling-dollar.large {
-            font-size: 3.5rem;
-            text-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgba(212, 160, 23, 0.2), 0 3px 6px rgba(0,0,0,0.4);
-        }
-
-        .falling-dollar.medium {
-            font-size: 2.2rem;
-        }
-
-        .falling-dollar.small {
-            font-size: 1.4rem;
-            opacity: 0.7;
-        }
+        .falling-dollar.large { font-size: 3rem; color: var(--blue); }
+        .falling-dollar.medium { font-size: 2rem; color: var(--pink); }
+        .falling-dollar.small { font-size: 1.3rem; opacity: 0.75; color: var(--ink); }
 
         @keyframes dollarFall {
-            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.9; }
-            10% { opacity: 1; }
-            85% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(var(--rotation)) scale(0.8); opacity: 0; }
+            0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.9; }
+            10%  { opacity: 1; }
+            85%  { opacity: 0.85; }
+            100% { transform: translateY(110vh) rotate(var(--rotation)) scale(0.85); opacity: 0; }
         }
 
         .milestone-flash {
             position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem; font-weight: 700;
-            color: var(--gold-light);
-            text-shadow: 0 0 30px var(--gold-glow);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.6rem; font-weight: 800;
+            color: var(--ink);
+            background: var(--yellow);
+            border: 2.5px solid var(--ink);
+            border-radius: 18px;
+            padding: 18px 30px;
+            box-shadow: 6px 6px 0 0 var(--ink);
             pointer-events: none; z-index: 1001;
             animation: milestoneAnim 2s ease-out forwards;
         }
 
         @keyframes milestoneAnim {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-            40% { transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -70%) scale(1); }
+            0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(-6deg); }
+            20%  { opacity: 1; transform: translate(-50%, -50%) scale(1.05) rotate(-3deg); }
+            40%  { transform: translate(-50%, -50%) scale(1) rotate(-2deg); }
+            100% { opacity: 0; transform: translate(-50%, -80%) scale(1) rotate(-2deg); }
         }
 
-        @media (max-width: 768px) {
+        /* ===== Features grid ===== */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+        .feature-card {
+            background: var(--paper);
+            border: 2.5px solid var(--ink);
+            border-radius: 22px;
+            padding: 26px;
+            box-shadow: 6px 6px 0 0 var(--ink);
+            transition: transform 0.18s ease;
+        }
+        .feature-card:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 0 var(--ink); }
+        .feature-icon {
+            width: 54px; height: 54px;
+            border-radius: 14px;
+            border: 2.5px solid var(--ink);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; font-weight: 800;
+            margin-bottom: 16px;
+        }
+        .feature-card:nth-child(1) .feature-icon { background: var(--pink); }
+        .feature-card:nth-child(2) .feature-icon { background: var(--yellow); }
+        .feature-card:nth-child(3) .feature-icon { background: var(--blue); color: var(--paper); }
+        .feature-card h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.1rem; font-weight: 800;
+            color: var(--ink); margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+        .feature-card p {
+            font-size: 0.92rem; color: var(--muted);
+            line-height: 1.55; font-weight: 500;
+        }
+
+        @media (max-width: 880px) {
+            .hero { grid-template-columns: 1fr; gap: 30px; }
+            .hero-art { justify-self: center; max-width: 320px; }
+            .input-section { padding: 22px; border-width: 2px; }
             .input-grid { grid-template-columns: 1fr; }
             .time-settings { grid-template-columns: 1fr; }
-            .earnings-display { font-size: 2.5rem; }
-            .total-earned-value { font-size: 1.6rem; }
-            .stats-grid { grid-template-columns: 1fr; }
-            header h1 { font-size: 1.6rem; }
+            .stats-grid { grid-template-columns: 1fr; gap: 12px; }
+            .features { grid-template-columns: 1fr; }
+            .counter-card { padding: 28px 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-image"></div>
-    <div class="bg-particles" id="particles"></div>
     <div class="falling-container" id="fallingContainer"></div>
 
     <div class="container">
-        <header>
-            <h1 data-i18n="title">SALARY BY SECOND</h1>
-            <p data-i18n="subtitle">Watch your hard work transform into real-time earnings</p>
-        </header>
+        <!-- HERO -->
+        <section class="hero">
+            <div>
+                <h1>
+                    Watch your <span class="hl hl-pink">salary</span>
+                    tick up <span class="hl hl-blue">every second</span>.
+                </h1>
+                <p class="sub" data-i18n="subtitle">Watch your hard work transform into real-time earnings — calculated to the cent, refreshed every moment of your workday.</p>
+                <div class="hero-ctas">
+                    <a href="#calculator" class="btn-primary">Start counting →</a>
+                    <a href="#features" class="btn-outline">How it works</a>
+                </div>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+                <svg viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Clock outer ring -->
+                    <circle cx="250" cy="250" r="200" fill="#FFFFFF" stroke="#0B0B0F" stroke-width="14"/>
+                    <!-- Inner split (red left / blue right) -->
+                    <path d="M250 70 A180 180 0 0 0 250 430 Z" fill="#FF3B3B" stroke="#0B0B0F" stroke-width="10"/>
+                    <path d="M250 70 A180 180 0 0 1 250 430 Z" fill="#3B7BFF" stroke="#0B0B0F" stroke-width="10"/>
+                    <!-- Center divider -->
+                    <line x1="250" y1="70" x2="250" y2="430" stroke="#0B0B0F" stroke-width="6"/>
+                    <!-- Hour dots (red side) -->
+                    <circle cx="170" cy="100" r="6" fill="#FFFFFF"/>
+                    <circle cx="115" cy="155" r="6" fill="#FFFFFF"/>
+                    <circle cx="85"  cy="225" r="6" fill="#FFFFFF"/>
+                    <circle cx="85"  cy="275" r="6" fill="#FFFFFF"/>
+                    <circle cx="115" cy="345" r="6" fill="#FFFFFF"/>
+                    <circle cx="170" cy="400" r="6" fill="#FFFFFF"/>
+                    <!-- Hour dots (blue side) -->
+                    <circle cx="330" cy="100" r="6" fill="#FFFFFF"/>
+                    <circle cx="385" cy="155" r="6" fill="#FFFFFF"/>
+                    <circle cx="415" cy="225" r="6" fill="#FFFFFF"/>
+                    <circle cx="415" cy="275" r="6" fill="#FFFFFF"/>
+                    <circle cx="385" cy="345" r="6" fill="#FFFFFF"/>
+                    <circle cx="330" cy="400" r="6" fill="#FFFFFF"/>
+                    <!-- Yellow up arrow (rotating) -->
+                    <g class="arrow-spin">
+                        <path d="M250 130 L250 280 M250 130 L228 158 M250 130 L272 158" stroke="#FFD93D" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </g>
+                    <!-- Big $ sign -->
+                    <text x="250" y="330" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="220" fill="#0B0B0F" stroke="#0B0B0F" stroke-width="2">$</text>
+
+                    <!-- Wordmark: cash | clock -->
+                    <g transform="translate(50 480)">
+                        <rect x="0" y="0" width="200" height="90" rx="14" fill="#FFD93D" stroke="#0B0B0F" stroke-width="8"/>
+                        <rect x="200" y="0" width="200" height="90" rx="14" fill="#3B7BFF" stroke="#0B0B0F" stroke-width="8"/>
+                        <!-- mask the seam so corners stay rounded only on outside -->
+                        <rect x="180" y="0" width="40" height="90" fill="#FFD93D"/>
+                        <rect x="200" y="0" width="20" height="90" fill="#3B7BFF"/>
+                        <line x1="200" y1="0" x2="200" y2="90" stroke="#0B0B0F" stroke-width="8"/>
+                        <text x="100" y="62" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="54" fill="#0B0B0F">cash</text>
+                        <text x="300" y="62" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="54" fill="#0B0B0F">clock</text>
+                    </g>
+                </svg>
+            </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section id="features" class="features">
+            <div class="feature-card">
+                <div class="feature-icon">⏱</div>
+                <h3>Real-time ticker</h3>
+                <p>Your earnings tick up every 50ms. See exactly what your time is worth, as it happens.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Smart calendar</h3>
+                <p>Toggle full days, half days, holidays. Drag-select multiple working days at once.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Four languages</h3>
+                <p>English, 中文, 日本語, 한국어. Built for global workers chasing the clock.</p>
+            </div>
+        </section>
+
+        <!-- CALCULATOR -->
+        <h2 class="section-title" id="calculator">
+            Set up your <span class="hl hl-yellow">paycheck</span>
+        </h2>
+        <p class="section-lede">Tell us your salary and working days. We'll do the math, second by second.</p>
 
         <div class="input-section" id="inputSection">
+            <span class="card-eyebrow">Step 1 · Your numbers</span>
             <div class="input-grid">
                 <div class="input-group">
                     <label data-i18n="monthly_salary">Monthly Salary ($)</label>
@@ -402,8 +650,8 @@
                 </div>
 
                 <div class="calendar-section">
-                    <label style="font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; display: block; margin-bottom: 8px;" data-i18n="working_days">Working Days</label>
-                    <p style="font-size: 0.75rem; color: #ccc; margin-bottom: 15px;" data-i18n="drag_hint">Click to toggle, or drag to select/deselect multiple days</p>
+                    <label style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem; color: var(--ink); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; display: block; margin-bottom: 6px;" data-i18n="working_days">Working Days</label>
+                    <p style="font-size: 0.8rem; color: var(--muted); margin-bottom: 16px; font-weight: 500;" data-i18n="drag_hint">Click to toggle, or drag to select/deselect multiple days</p>
                     <div class="calendar-header">
                         <button id="prevMonth">&#8249;</button>
                         <span id="calendarTitle"></span>
@@ -412,56 +660,58 @@
                     <div class="calendar-grid" id="calendarGrid"></div>
                     <div class="selected-days-display">
                         <span data-i18n="selected_days">Selected working days:</span> <span id="selectedCount">0</span>
-                        <span style="margin-left: 15px; color: #ddd;" data-i18n="half_day_count_label">Half days:</span> <span id="halfDayCount" style="color: var(--gold); font-family: 'Space Grotesk', sans-serif; font-weight: 700;">0</span>
+                        <span style="margin-left: 18px;" data-i18n="half_day_count_label">Half days:</span> <span id="halfDayCount">0</span>
                     </div>
-                    <div style="margin-top: 10px; font-size: 0.72rem; color: #ccc; display: flex; gap: 15px; align-items: center;">
-                        <span><span style="display:inline-block; width:12px; height:12px; border-radius:3px; background: linear-gradient(135deg, var(--gold), var(--gold-deep)); vertical-align: middle; margin-right: 4px;"></span> <span data-i18n="legend_full">Full day</span></span>
-                        <span><span style="display:inline-block; width:12px; height:12px; border-radius:3px; background: linear-gradient(135deg, rgba(212,160,23,0.5), rgba(184,134,11,0.4)); vertical-align: middle; margin-right: 4px;"></span> <span data-i18n="legend_half">Half day</span></span>
-                        <span style="color: #bbb;" data-i18n="right_click_hint">Right-click = half day</span>
+                    <div style="margin-top: 12px; font-size: 0.74rem; color: var(--muted); display: flex; gap: 16px; align-items: center; flex-wrap: wrap; font-weight: 500;">
+                        <span><span style="display:inline-block; width:14px; height:14px; border-radius:4px; background: var(--blue); border: 1.5px solid var(--ink); vertical-align: middle; margin-right: 5px;"></span> <span data-i18n="legend_full">Full day</span></span>
+                        <span><span style="display:inline-block; width:14px; height:14px; border-radius:4px; background: var(--blue-soft); border: 1.5px solid var(--ink); vertical-align: middle; margin-right: 5px;"></span> <span data-i18n="legend_half">Half day</span></span>
+                        <span data-i18n="right_click_hint">Right-click = half day</span>
                     </div>
                 </div>
             </div>
-            <button class="start-btn" id="startBtn" data-i18n="start_btn">START EARNING</button>
+            <button class="start-btn" id="startBtn" data-i18n="start_btn">START EARNING →</button>
         </div>
 
         <div class="counter-section" id="counterSection">
-            <div class="motivational-quote" id="quote"></div>
-            <div class="today-date-display"><span data-i18n="today_label">Today:</span> <span id="displayDate"></span></div>
-            <div class="earnings-label" data-i18n="earned_today">Earned Today</div>
-            <div class="earnings-display" id="earningsDisplay">$0.0000</div>
-            <div class="per-second-display">
-                <span id="perSecond">$0.0000</span> <span data-i18n="per_second">/ second</span>
-            </div>
+            <div class="counter-card">
+                <div class="motivational-quote" id="quote"></div>
+                <div class="today-date-display"><span data-i18n="today_label">Today:</span> <span id="displayDate"></span></div>
+                <div class="earnings-label" data-i18n="earned_today">Earned Today</div>
+                <div class="earnings-display" id="earningsDisplay">$0.0000</div>
+                <div class="per-second-display">
+                    <span id="perSecond">$0.0000</span> <span data-i18n="per_second">/ second</span>
+                </div>
 
-            <div class="total-earned-section" style="margin-top: 15px; border-color: rgba(184, 134, 11, 0.3);">
-                <div class="total-earned-label" data-i18n="total_month">Total Earned This Month</div>
-                <div class="total-earned-value" id="totalEarnedMonth">$0.00</div>
-                <div style="font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: #ccc; margin-top: 6px;" id="monthBreakdown"></div>
-            </div>
+                <div class="total-earned-section">
+                    <div class="total-earned-label" data-i18n="total_month">Total Earned This Month</div>
+                    <div class="total-earned-value" id="totalEarnedMonth">$0.00</div>
+                    <div style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.78rem; color: var(--muted); margin-top: 6px; font-weight: 500;" id="monthBreakdown"></div>
+                </div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="statHour">$0</div>
-                    <div class="stat-label" data-i18n="per_hour">Per Hour</div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statHour">$0</div>
+                        <div class="stat-label" data-i18n="per_hour">Per Hour</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statDay">$0</div>
+                        <div class="stat-label" data-i18n="per_day">Per Day</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statMonth">$0</div>
+                        <div class="stat-label" data-i18n="this_month">This Month</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statDay">$0</div>
-                    <div class="stat-label" data-i18n="per_day">Per Day</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="statMonth">$0</div>
-                    <div class="stat-label" data-i18n="this_month">This Month</div>
+                <div class="progress-label">
+                    <span id="progressStart">9:00 AM</span>
+                    <span id="progressPercent">0%</span>
+                    <span id="progressEnd">6:00 PM</span>
                 </div>
+                <button class="reset-btn" id="resetBtn" data-i18n="reset_btn">← Adjust Settings</button>
             </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="progress-label">
-                <span id="progressStart">9:00 AM</span>
-                <span id="progressPercent">0%</span>
-                <span id="progressEnd">6:00 PM</span>
-            </div>
-            <button class="reset-btn" id="resetBtn" data-i18n="reset_btn">&#8592; Adjust Settings</button>
         </div>
     </div>
 
@@ -470,7 +720,7 @@
         const i18n = {
             en: {
                 title: "SALARY BY SECOND",
-                subtitle: "Watch your hard work transform into real-time earnings",
+                subtitle: "Watch your hard work transform into real-time earnings — calculated to the cent, refreshed every moment of your workday.",
                 monthly_salary: "Monthly Salary ($)",
                 monthly_bonus: "Monthly Bonus ($)",
                 todays_date: "Today's Date",
@@ -479,7 +729,7 @@
                 working_days: "Working Days",
                 drag_hint: "Click to toggle, or drag to select/deselect multiple days",
                 selected_days: "Selected working days:",
-                start_btn: "START EARNING",
+                start_btn: "START EARNING →",
                 today_label: "Today:",
                 earned_today: "Earned Today",
                 per_second: "/ second",
@@ -526,7 +776,7 @@
                 working_days: "工作日",
                 drag_hint: "点击切换，或拖动选择/取消多个日期",
                 selected_days: "已选工作日：",
-                start_btn: "开始赚钱",
+                start_btn: "开始赚钱 →",
                 today_label: "今天：",
                 earned_today: "今日已赚",
                 per_second: "/ 秒",
@@ -573,7 +823,7 @@
                 working_days: "勤務日",
                 drag_hint: "クリックで切り替え、ドラッグで複数選択",
                 selected_days: "選択した勤務日：",
-                start_btn: "稼ぎ始める",
+                start_btn: "稼ぎ始める →",
                 today_label: "今日：",
                 earned_today: "今日の収入",
                 per_second: "/ 秒",
@@ -620,7 +870,7 @@
                 working_days: "근무일",
                 drag_hint: "클릭으로 전환, 드래그로 여러 날짜 선택/해제",
                 selected_days: "선택된 근무일:",
-                start_btn: "수익 시작",
+                start_btn: "수익 시작 →",
                 today_label: "오늘:",
                 earned_today: "오늘 번 금액",
                 per_second: "/ 초",
@@ -659,15 +909,12 @@
         };
 
         let currentLang = 'en';
-
         window.pageI18n = i18n;
-        window.onLanguageChange = function(lang) {
-            currentLang = lang;
-        };
+        window.onLanguageChange = function(lang) { currentLang = lang; };
 
         // ====== STATE ======
-        let selectedDays = new Set();  // full working days
-        let halfDays = new Set();      // half working days
+        let selectedDays = new Set();
+        let halfDays = new Set();
         let currentMonth, currentYear;
         let countingInterval = null;
         let lastCoinThreshold = 0;
@@ -677,7 +924,7 @@
         let setToday = null;
 
         let isDragging = false;
-        let dragMode = null; // 'select', 'deselect', or 'half'
+        let dragMode = null;
         let draggedDays = [];
 
         const today = new Date();
@@ -689,20 +936,6 @@
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         const dd = String(today.getDate()).padStart(2, '0');
         todayInput.value = `${yyyy}-${mm}-${dd}`;
-
-        // ====== PARTICLES ======
-        function initParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (4 + Math.random() * 4) + 's';
-                container.appendChild(particle);
-            }
-        }
 
         // ====== FALLING DOLLARS ======
         function createFallingDollar(x) {
@@ -732,9 +965,8 @@
             }
         }
 
-        // Background click
         document.addEventListener('click', (e) => {
-            if (e.target.closest('.input-section') || e.target.closest('.counter-section') || e.target.closest('.lang-switcher')) return;
+            if (e.target.closest('.input-section') || e.target.closest('.counter-section') || e.target.closest('.site-nav') || e.target.closest('a') || e.target.closest('button')) return;
             const count = 4 + Math.floor(Math.random() * 4);
             for (let i = 0; i < count; i++) {
                 setTimeout(() => {
@@ -751,28 +983,10 @@
             else if (halfDays.has(dateKey)) el.classList.add('half-day');
         }
 
-        function cycleDayState(dateKey, el) {
-            // Left click cycles: unselected -> full day -> unselected
-            if (selectedDays.has(dateKey)) {
-                selectedDays.delete(dateKey);
-            } else if (halfDays.has(dateKey)) {
-                halfDays.delete(dateKey);
-                selectedDays.add(dateKey);
-            } else {
-                selectedDays.add(dateKey);
-            }
-            applyDayState(el, dateKey);
-            updateSelectedCount();
-        }
-
         function setHalfDay(dateKey, el) {
-            // Right click sets half day, or removes if already half
             selectedDays.delete(dateKey);
-            if (halfDays.has(dateKey)) {
-                halfDays.delete(dateKey);
-            } else {
-                halfDays.add(dateKey);
-            }
+            if (halfDays.has(dateKey)) halfDays.delete(dateKey);
+            else halfDays.add(dateKey);
             applyDayState(el, dateKey);
             updateSelectedCount();
         }
@@ -817,7 +1031,6 @@
                 }
                 applyDayState(el, dateKey);
 
-                // Left click drag
                 el.addEventListener('mousedown', (e) => {
                     if (e.button !== 0) return;
                     e.preventDefault();
@@ -852,7 +1065,6 @@
                     updateSelectedCount();
                 });
 
-                // Right click = half day
                 el.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
                     setHalfDay(dateKey, el);
@@ -892,7 +1104,6 @@
             renderCalendar();
         }
 
-        // ====== MILESTONE ======
         function showMilestone(amount) {
             const el = document.createElement('div');
             el.className = 'milestone-flash';
@@ -901,7 +1112,6 @@
             setTimeout(() => el.remove(), 2000);
         }
 
-        // ====== TIME HELPERS ======
         function parseTimeToMinutes(timeStr) {
             const [h, m] = timeStr.split(':').map(Number);
             return h * 60 + m;
@@ -915,7 +1125,6 @@
             return hour12 + ':' + String(m).padStart(2, '0') + ' ' + suffix;
         }
 
-        // ====== MAIN ======
         function startCounting() {
             const salary = parseFloat(document.getElementById('salary').value) || 0;
             const bonus = parseFloat(document.getElementById('bonus').value) || 0;
@@ -958,6 +1167,7 @@
 
             document.getElementById('inputSection').style.display = 'none';
             document.getElementById('counterSection').classList.add('active');
+            document.getElementById('counterSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             const quotes = i18n[currentLang].quotes;
             document.getElementById('quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
@@ -1058,12 +1268,14 @@
         document.getElementById('startBtn').addEventListener('click', startCounting);
         document.getElementById('resetBtn').addEventListener('click', reset);
 
-        initParticles();
         autoSelectWeekdays();
         renderCalendar();
     </script>
-    <div class="more-tools" style="max-width: 900px; margin: 60px auto 0; padding: 0 20px; position: relative; z-index: 10;">
-        <h2 data-i18n="more_tools">More Salary Tools</h2>
+
+    <div class="more-tools" style="max-width: 1100px; margin: 70px auto 0; padding: 0 24px; position: relative; z-index: 10;">
+        <h2 data-i18n="more_tools">
+            More <span class="hl hl-blue">salary tools</span>
+        </h2>
         <div class="tools-grid">
             <a href="/take-home-pay/" class="tool-card">
                 <h3 data-i18n="tool_takehome_title">Take-Home Pay Calculator</h3>

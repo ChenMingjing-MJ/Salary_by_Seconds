@@ -145,14 +145,7 @@
         });
     }
 
-    function injectBgImage() {
-        if (!document.querySelector('.bg-image')) {
-            document.body.insertAdjacentHTML('afterbegin', '<div class="bg-image"></div>');
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
-        injectBgImage();
         injectNav();
         injectFooter();
         initLangSwitcher();
