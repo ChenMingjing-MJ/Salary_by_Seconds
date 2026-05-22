@@ -971,18 +971,21 @@
                 const startSeconds = workStartMinutes * 60;
                 const endSeconds = workEndMinutes * 60;
 
-                let secondsWorkedToday = 0;
+                let secondsElapsedInWorkday = 0;
                 if (nowSeconds >= endSeconds) {
-                    secondsWorkedToday = workDurationMinutes * 60;
+                    secondsElapsedInWorkday = workDurationMinutes * 60;
                 } else if (nowSeconds > startSeconds) {
-                    secondsWorkedToday = nowSeconds - startSeconds;
+                    secondsElapsedInWorkday = nowSeconds - startSeconds;
                 }
-
-                const totalEarnedToday = perSecondRate * secondsWorkedToday;
 
                 const todayDay = setToday.getDate();
                 const todayMonth = setToday.getMonth();
                 const todayYear = setToday.getFullYear();
+                const todayDateKey = `${todayYear}-${todayMonth}-${todayDay}`;
+                const todayIsFull = selectedDays.has(todayDateKey);
+                const todayIsHalf = halfDays.has(todayDateKey);
+                const todayFactor = todayIsFull ? 1 : (todayIsHalf ? 0.5 : 0);
+
                 let completedFullDays = 0;
                 let completedHalfDays = 0;
 
@@ -1000,9 +1003,11 @@
                     }
                 }
 
+                const dailyEarning = perSecondRate * workDurationMinutes * 60;
+                const todayWorkSeconds = workDurationMinutes * 60 * todayFactor;
+                const secondsWorkedToday = Math.min(secondsElapsedInWorkday, todayWorkSeconds);
                 const actualEarnedToday = perSecondRate * secondsWorkedToday;
 
-                const dailyEarning = perSecondRate * workDurationMinutes * 60;
                 const pastDaysEarned = (completedFullDays * dailyEarning) + (completedHalfDays * dailyEarning * 0.5);
                 const totalMonthEarned = pastDaysEarned + actualEarnedToday;
 
